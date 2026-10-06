@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.action-container {
+  border: 2px solid #005eb8;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;                
+  margin: 1rem 10px;         
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #e6f7ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.action-container {
+  flex-wrap: wrap;
+}
+
+.action-container .action-bar__title {
+  flex: 0 0 100%;         
+  margin-bottom: 0.5rem;  
+}
+
+.action-container .action-bar__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.action-bar__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1; 
+}
+
+.action-bar__select {
+  width: 100px;
+  height: 32px;
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  border: 2px solid #005eb8;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #000000;
+  transition: border-color 0.2s ease;
+}
+
+.action-bar__search {
+  width: 300px;
+  height: 32px;
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  border: 2px solid #005eb8;
+  border-radius: 4px;
+}
+
+.action-bar__search--small {
+  width: 120px;
+  height: 32px;
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  border: 2px solid #005eb8;
+  border-radius: 4px;
+}
+
+.action-bar__btn {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: 2px solid #005eb8;
+  border-radius: 0.5rem;
+  transition:
+    background-color 0.3s ease,
+    color            0.3s ease,
+    box-shadow       0.3s ease;
+  height: 32px;
+  font-size: 0.9rem;
+}
+
+.action-bar__btn:hover{
+  background-color: #005eb8;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  outline: none;
+  cursor:pointer;
+}
+
+.action-bar__btn.add{
+  margin-left: auto;
+}
+
+.docs-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-content {
+  text-align: center;
+  padding: 30px 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+}
+
+.docs-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 15px;
+}
+
+.dots::after {
+  content: '';
+  display: inline-block;
+  animation: dots 1.5s infinite steps(4, end);
+}
+
+@keyframes dots {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #007bff;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.docs-toast {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.toast-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.toast-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Contenitore principale datatable */
+.datatable-container {
+  margin: 1rem 10px;
+  border: 2px solid #005eb8;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Celle di intestazione e corpo — Allineamento centrale perfetto */
+.datatable-container .datatable-body-cell,
+.datatable-container .datatable-header-cell {
+  display: flex !important;
+  justify-content: center;
+  align-items: center !important;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  padding: 2px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Colore celle selezionate o attive */
+.datatable-container .open {
+  color: #005eb8;
+}
+
+/* Hover su righe */
+.datatable-container .datatable-row-wrapper:hover {
+  background-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  outline: none;
+  color: black;
+}
+
+/* Intestazioni con background */
+.datatable-container .datatable-header-cell {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* Riga divisoria */
+.datatable-container .datatable-row-wrapper {
+  border-bottom: 1px solid black;
+}
+
+/* Paginazione */
+
+/* Pulsanti numerici */
+.datatable-pager .pager .pages a {
+  padding: 6px 12px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #007bff;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover sui pulsanti numerici */
+.datatable-pager .pager .pages a:hover {
+  background-color: #10b981;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Pulsante attivo */
+.datatable-pager .pager .pages a.active {
+  background-color: #10b981;
+  color: white;
+  font-weight: bold;
+  border-color: #007bff;
+}
+
+.datatable-pager .pager .pages.active a{
+  background-color: #10b981;
+  color: white;
+  font-weight: bold;
+  border-color: #007bff;
+}
+
+/* Frecce avanti/indietro */
+.datatable-pager .pager .pager-btn {
+  color: #10b981;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.datatable-pager .pager .pager-btn:hover {
+  background-color: #e6f0ff;
+}
+
+/* Icone di navigazione personalizzate */
+.datatable-icon-left::before {
+  content: '«';
+}
+
+.datatable-icon-prev::before {
+  content: '‹';
+  padding: 10px;
+}
+
+.datatable-icon-next::before {
+  content: '›';
+  padding: 10px;
+}
+
+.datatable-icon-right::before {
+  content: '»';
+}
+
+
+img{
+  width: 20px;
+  height: auto;
+}
+
+.meta{
+  width: min-content;
+}

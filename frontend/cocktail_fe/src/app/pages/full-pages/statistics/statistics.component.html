@@ -1,0 +1,52 @@
+<div class="container">
+
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Sto caricando le statistiche, attendere...</p>
+    </div>
+    
+    <!-- Statistiche -->
+    <div class="stats-wrapper" *ngIf="!isLoading">
+        <h1 class="title">Statistiche Metadati</h1>
+        
+        <!-- Pulsante aggiornamento -->
+        <div class="update-button-container">
+            <button class="refresh-btn" (click)="refreshStats()">Aggiorna Statistiche</button>
+        </div>
+        
+        <div class="cards-grid">
+
+            <div class="card complete">
+                <div class="card-icon"></div>
+                <div class="card-content">
+                    <h2>Metadati Completati</h2>
+                    <p>{{ totalComplete }}</p>
+                </div>
+            </div>
+
+            <div class="card ok">
+                <div class="card-icon"></div>
+                <div class="card-content">
+                    <h2>Metadati OK</h2>
+                    <p>{{ totalOk }}</p>
+                </div>
+            </div>
+
+            <div class="card missing">
+                <div class="card-icon"></div>
+                <div class="card-content">
+                    <h2>Metadati Mancanti</h2>
+                    <p>{{ totalMissing }}</p>
+                    
+                    <ul class="doc-list">
+                        <li *ngFor="let doc of missingDocs">
+                            <strong>{{ doc }}</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>
+
+</div>

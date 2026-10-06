@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": 1791232923345,
+      "username": "Paolo",
+      "passwordHash": "$2b$10$zFfP7dyqxBSNMDAOH9JJUuMqwuKURIJ1210i2PhvHu1OOIq7mjafy",
+      "token": "436b4c66a1072fc3f0f34acdd16092255faceaa494c5db5b9eb4cd715639a75e"
+    },
+    {
+      "id": 1791236467980,
+      "username": "manila",
+      "passwordHash": "$2b$10$pwMz2V5tI5giPfGZC4DWvuCF6qmvIy42S8Jb/.TxtSDJ/.RZGjYQu",
+      "token": "3dda88109e14c5352e4be3aedd33e6e2401e0d939e9197b656da000f68a0cb98"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": 1791232923345,
+      "cocktailId": "6127846",
+      "active": true
+    },
+    {
+      "userId": 1791232923345,
+      "cocktailId": "235343",
+      "active": true
+    },
+    {
+      "userId": 1791232923345,
+      "cocktailId": "gec5454c52c",
+      "active": true
+    },
+    {
+      "userId": 1791232923345,
+      "cocktailId": "325cx6hyh3c5",
+      "active": true
+    }
+  ]
+}

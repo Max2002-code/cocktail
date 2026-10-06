@@ -1,0 +1,32 @@
+<div class="header">
+    <div class="menu">
+        <a [routerLink]="['/documenti']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="docs">Documenti</a>
+        <a [routerLink]="['/statistics']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="stats">Statistiche</a>
+        <a [routerLink]="['/scatole']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="lotti">Scatole</a>
+        <a *ngIf="!['superuser','viewer'].includes(currentUser?.user_type ?? '')" [routerLink]="['/user/single']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="utente">{{ currentUser?.username }}</a>
+        <a *ngIf="['superuser'].includes(currentUser?.user_type ?? '')" [routerLink]="['/userStats']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="utenti">Utenti</a>
+    </div>
+    <div class="icon">
+        <p class="user_type">{{ currentUser?.username }} - ({{ currentUser?.company?.comune }})</p>
+    </div>
+    <div class="user-logout-container" #dropdownContainer >
+      <div class="user" (click)="action = !action" >
+        <img src="../../../../assets/icons/user.png" alt="">
+        - {{ currentUser?.user_type}}
+      </div>
+      <div class="container_actions" *ngIf="action" >
+        <!--<div class="change_comune">
+          <a [routerLink]="['/change/comune']">Cambia comune</a>
+        </div>-->
+        <div class="logout">
+          <a [routerLink]="['/logout']">Logout</a>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="page-container">
+  <div class="content-wrap">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>

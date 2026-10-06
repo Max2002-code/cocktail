@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="table">
+
+        <ngx-datatable #table class="datatable-container" [limit]="rows.per_page" [count]="rows.total" [externalPaging]="true"
+        [offset]="rows.page-1" (page)="datatablePage($event)" [columnMode]="ColumnMode.force" [headerHeight]="50"
+        [footerHeight]="50" rowHeight="auto" [rows]="rows.results" [scrollbarH]="true" [selected]="selected" (select)="onSelect($event)"
+        [selectionType]="SelectionType.checkbox" [selectAllRowsOnPage]="false">
+
+            <ngx-datatable-column name="Username" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.username">{{ row.username }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Documenti Metadatati" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span>{{ row.docs_metadated }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Documenti Errati" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span>{{ row.wrong_docs }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Accuratezza" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.accuracy" >{{ row.accuracy }}%</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+           <ngx-datatable-footer *ngIf="true">
+                <ng-template
+                  ngx-datatable-footer-template
+                  let-rowCount="rowCount"
+                  let-pageSize="pageSize"
+                  let-selectedCount="selectedCount"
+                  let-curPage="curPage"
+                  let-offset="offset"
+                >
+                  <datatable-pager
+                  [pagerLeftArrowIcon]="'datatable-icon-prev'" 
+                  [pagerPreviousIcon]="'datatable-icon-left'"
+                  [pagerNextIcon]="'datatable-icon-right'"
+                  [pagerRightArrowIcon]="'datatable-icon-next'"
+                  [page]="curPage"
+                  [size]="pageSize"
+                  [count]="rowCount"
+                  [hidden]="!((rowCount / pageSize) > 1)"
+                  (change)="table.onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+              </ngx-datatable-footer>
+
+        </ngx-datatable>
+
+    </div>
+</div>

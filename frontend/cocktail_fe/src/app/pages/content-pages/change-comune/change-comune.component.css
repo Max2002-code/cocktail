@@ -1,0 +1,132 @@
+/* Reset di base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    background: #f0f2f5;
+}
+
+/* Container principale centrato */
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.container {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 350px;
+    text-align: center;
+}
+
+.title h1 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.title h1 span {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form label span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form input[type="text"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.form input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form button:hover {
+    background-color: #0056b3;
+}
+
+.form p {
+    font-size: 13px;
+    color: #888;
+    margin-top: 10px;
+}
+
+.form p.wrong{
+    font-size: small;
+    color: red;
+}
+
+.is-invalid {
+  border-color: #e74c3c !important;
+}
+
+.toast{
+    width: 500px;
+    padding: 30px 40px 10px;
+}
+
+.toast h3{
+    color: green;
+    padding: 5px;
+}
+
+.toast p{
+    padding: 5px;
+}
+
+.cont{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background:  rgba(10,12,16,0.6);
+    z-index: 9999;
+    display: flex;
+    backdrop-filter: blur(4px);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px 10px;
+}
+
+.buttons button{
+    font-size: large;
+}

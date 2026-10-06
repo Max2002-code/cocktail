@@ -1,0 +1,102 @@
+<div class="ngx-list">
+    <div class="row">
+
+        <div class="next_doc">
+            <button class="btn-save" *ngIf="next_met" (click)="NextUnMetadated()">Continua Metadatazione</button>
+            <button class="btn-save" *ngIf="next_val" (click)="nextUnvalidated()">Continua Validazione</button>
+        </div>
+
+        <div class="list">
+
+            <div *ngIf="document" class="meta-list">
+
+                    <div *ngFor="let group of doc_multi; let groupIndex = index" class="check-list">
+                        <ng-container *ngFor="let multi of group">
+                            <label>
+                                <span>{{ multi.metadato.name }} {{ multi.multiple_counter }}
+
+                                </span>
+                                <span style="color:red;" *ngIf="multi.required">*</span>
+                            </label>
+
+                            <input *ngIf="multi.metadato.type === 'text'" [(ngModel)]="multi.new_value" [placeholder]="multi.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="multi.metadato.name">
+                            <input *ngIf="multi.metadato.type !== 'date' && multi.metadato.type !== 'text'" [(ngModel)]="multi.new_value" [placeholder]="multi.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="multi.metadato.name">
+                            <input *ngIf="multi.metadato.type === 'date'" [imask]="{ mask:'00/00/0000'}" [(ngModel)]="multi.new_value" [placeholder]="multi.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato"  class="input-meta">
+                            
+                        </ng-container>
+                        <button *ngIf="groupIndex === doc_multi.length - 1 && group.length > 0"
+                             #btnAdd class="btn-add" (click)="addMetaGroup(groupIndex)" 
+                            [disabled]="currentUser?.user_type==='viewer' || stato" 
+                            [style.cursor]="(currentUser?.user_type==='viewer' || stato) ? 'not-allowed' : 'pointer'" >Aggiungi</button>
+
+                        <button *ngIf="groupIndex === doc_multi.length - 1 && group.length > 0 && doc_multi.length > 1"
+                             #btnAdd class="btn-delete" (click)="removeMetaGroup(groupIndex)" 
+                            [disabled]="currentUser?.user_type==='viewer' || stato" 
+                            [style.cursor]="(currentUser?.user_type==='viewer' || stato) ? 'not-allowed' : 'pointer'" >rimuovi</button>
+                    </div>
+
+                    <ng-container *ngFor="let metadata of doc_single; let i =index">
+
+                        <div class="check-list">
+
+                            <label>
+                                <span>{{ metadata.metadato.name }}
+                                    <span *ngIf="metadata.multiple_counter">{{ metadata.multiple_counter }}</span>
+                                </span>
+                                <span style="color:red;" *ngIf="metadata.required">*</span>
+                            </label>
+
+                            <input *ngIf="metadata.metadato.type === 'text'" [(ngModel)]="metadata.new_value" [placeholder]="metadata.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="metadata.metadato.name">
+                            <input *ngIf="metadata.metadato.type !== 'date' && metadata.metadato.type !== 'text'" [(ngModel)]="metadata.new_value" [placeholder]="metadata.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="metadata.metadato.name">
+                            <input *ngIf="metadata.metadato.type === 'date'" [imask]="{ mask:'00/00/0000'}" [(ngModel)]="metadata.new_value" [placeholder]="metadata.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato"  class="input-meta">
+                            
+                        </div>
+
+                    </ng-container>
+
+                    <ng-container *ngFor="let meta of metadatas; let i=index">
+                        <div *ngIf="!isPresent(meta) || meta.multiple_counter" class="check-list">
+    
+                            <label>{{ meta.metadato.name }}<span *ngIf="meta.multiple_counter">{{meta.multiple_counter+1}}</span>
+                                <span *ngIf="meta.multiple && meta.multiple_counter">{{ meta.max_counter + meta.multiple_counter }}</span>
+                                <span style="color:red;" *ngIf="meta.required">*</span>
+                            </label>
+
+                            <input *ngIf="meta.metadato.type === 'text'" [(ngModel)]="meta.value" [placeholder]="meta.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="meta.metadato.name">
+                            <input *ngIf="meta.metadato.type !== 'date' && meta.metadato.type !== 'text'" [(ngModel)]="meta.value" [placeholder]="meta.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato" class="input-meta"  [attr.name]="meta.metadato.name">
+                            <input *ngIf="meta.metadato.type === 'date'" [imask]="{ mask:'00/00/0000'}" [(ngModel)]="meta.value" [placeholder]="meta.metadato.name" [disabled]="currentUser?.user_type==='viewer' || stato"  class="input-meta">
+    
+                            
+                        </div>
+                    </ng-container>
+                
+            </div>
+            <div *ngIf="currentUser?.user_type !== 'viewer'" class="buttons-save">
+                <div *ngIf="currentUser?.user_type != 'viewer'" class="buttons">
+                    <button class="btn-save"  *ngIf="!stato"  (click)="saveMetas()" >Salva Modifiche </button>
+                </div>
+                <div class="validate" *ngIf="['superuser','validator','admin'].includes(currentUser?.user_type ?? '')" >
+                    <button class="btn-save" *ngIf="metadated && !validate" (click)="ValidateDoc()" >Valida Documento</button>
+                    <p class="btn-save" *ngIf="!metadated" >Metadati mancanti, non può essere validato!</p>
+                </div>
+                <p class="btn-save" *ngIf="validate && stato" >Documento non modificabile!</p>
+                <button class="btn-save delete" (click)="deleteDoc(document.id)" *ngIf="['superuser','admin'].includes(currentUser?.user_type ?? '')">ELIMINA DOCUMENTO</button>
+            </div>
+        </div>
+
+
+
+        <div class="pdf-cointainer">
+            <div class="loading-spinner" *ngIf="isLoading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+        <div class="pdfs">
+            <div class="split-buttons">
+                <button class="split" (click)="getPdfUrl(document.id)" >Intero</button>
+                <button class="split" *ngFor="let split of splits" (click)="setSplit(split, document.id)" >{{ split }}</button>
+            </div>
+            <iframe *ngIf="!isLoading" class="pdf-frame" [src]="pdfUrl | safeUrl" frameborder="0"></iframe>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="body">
+    <div class="container">
+        <div class="title">
+            <h1><span>Cambio del Comune per Battioni</span></h1>
+        </div>
+        <div class="form">
+            <label><span>Vecchio Comune</span></label>
+            <p class="wrong" *ngIf="errorMessage_old" >{{ errorMessage_old }}</p>
+            <input type="text" [ngClass]="{
+                'is-valid': errorMessage_old === '',
+                'is-invalid': errorMessage_old !== ''
+            }" 
+            [(ngModel)]="old_comune" (ngModelChange)="onChange()" placeholder="Inserisci il vecchio comune" >
+
+
+            <label><span>Nuovo Comune</span></label>
+            <p class="wrong" *ngIf="errorMessage_new"> {{ errorMessage_new }} </p>
+            <input type="text" [ngClass]="{
+                'is-valid': errorMessage_new === '',
+                'is-invalid': errorMessage_new !== ''
+            }" 
+            [(ngModel)]="new_comune" (ngModelChange)="onChange()" placeholder="ES. Roma" >
+            <button (click)="changeComune()">Salva</button>
+            <p>Tutti gli Utenti usciranno dalla sessione di MediTag</p>
+        </div>
+    </div>
+
+    <div class="cont" *ngIf="change" >
+        <div class="container toast">
+            <h3>Comune aggiornato con successo!</h3>
+            <p>Verrai reidirizzato alla schermata di Login</p>
+            <div class="buttons">
+                <button (click)="confirmChange(new_comune)">Ok!</button>
+                <button (click)="change = false" >Annulla</button>
+            </div>
+        </div>
+    </div>
+
+</div>

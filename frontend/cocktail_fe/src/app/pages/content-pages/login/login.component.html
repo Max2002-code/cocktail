@@ -1,0 +1,45 @@
+<div class="login-container">
+  <div class="login-box">
+    <div class="image"><img src="../../../../assets/icons/logo.png" alt=""></div>
+    
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': loginSubmit && lf['username'].invalid,
+            'is-valid': loginSubmit && lf['username'].valid
+          }"
+        />
+        <div class="error-message" *ngIf="loginSubmit && lf['username'].invalid">
+          Questo campo è obbligatorio.
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': loginSubmit && lf['password'].invalid,
+            'is-valid': loginSubmit && lf['password'].valid
+          }"
+        />
+        <div class="error-message" *ngIf="loginSubmit && lf['password'].invalid">
+          Questo campo è obbligatorio.
+        </div>
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+    </form>
+  </div>
+</div>

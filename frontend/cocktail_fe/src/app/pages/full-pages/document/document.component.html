@@ -1,0 +1,111 @@
+<div class="main">
+
+  <div class="action-container">
+    <h2 class="action-bar__title">Documenti</h2>
+
+    <div class="action-bar__controls">
+
+      <input type="text" class="action-bar__search" placeholder="Nome" [(ngModel)]="search.name"/>
+      <input type="text" class="action-bar__search meta" placeholder="Cerca da Metadato" [(ngModel)]="search.meta_value"/>
+      
+
+      <button class="action-bar__btn" (click)="searchDocs()" >Cerca</button>
+      <button class="action-bar__btn" *ngIf="!['viewer','validator'].includes(currentUser?.user_type ?? '')" (click)="nextUnmetadated()" >Inizia Metadazione</button>
+      <button class="action-bar__btn" *ngIf="['superuser','validator','admin'].includes(currentUser?.user_type ?? '')" (click)="nextUnvalidated()" >Inizia Validazione</button>
+      <button class="action-bar__btn add" *ngIf="['superuser','tagger','admin'].includes(currentUser?.user_type ?? '')" (click)="addDocs(category, comune)"> Carica Documenti </button>
+    </div>
+  </div>
+
+  <div class="docs-loader" *ngIf="loading">
+    <div class="loader-content">
+      <ng-container *ngIf="!showMessage">
+        <div class="spinner"></div>
+        <p class="docs-text">Caricamento dei Documenti<span class="dots"></span></p>
+      </ng-container>
+      
+      <ng-container *ngIf="showMessage">
+        <p class="docs-toast" [ngClass]="isSuccess ? 'toast-success' : 'toast-error'">
+          {{ message }}
+        </p>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+
+        <ngx-datatable #table class="datatable-container" [limit]="rows.per_page" [count]="rows.total" [externalPaging]="true"
+        [offset]="rows.page-1" (page)="datatablePage($event)" [columnMode]="ColumnMode.force" [headerHeight]="50"
+        [footerHeight]="50" rowHeight="auto" [rows]="rows.results" [scrollbarH]="true" [selected]="selected" (select)="onSelect($event)"
+        [selectionType]="SelectionType.checkbox" [selectAllRowsOnPage]="false">
+
+            <ngx-datatable-column name="Nome" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.progressivo">{{ row.progressivo }}_{{ row.name }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="data di creazione" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.date_add">{{ row.date_add | date:'dd/MM/yyyy' }}</span>
+                  <br>
+                  <span *ngIf="row.date_add">{{ row.date_add | date:'HH:mm' }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Metadati" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.metadated">Metadati ok</span>
+                  <span *ngIf="!row.metadated">Metadati Mancanti</span>
+                  <br>
+                  <a [href]="'/viewer/allegati/'+row.id" class="open">Apri Documento</a>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Numero Pagine" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.n_pages">{{ row.n_pages }}</span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Validato" prop="anno" >
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                  <span *ngIf="row.validate"><img src="../../../../assets/icons/check.png" alt="Validato"></span>
+                  <span *ngIf="!row.validate"><img src="../../../../assets/icons/cross.png" alt="Non Validato"></span>
+                </ng-template>
+
+            </ngx-datatable-column>
+
+           <ngx-datatable-footer *ngIf="true">
+                <ng-template
+                  ngx-datatable-footer-template
+                  let-rowCount="rowCount"
+                  let-pageSize="pageSize"
+                  let-selectedCount="selectedCount"
+                  let-curPage="curPage"
+                  let-offset="offset"
+                >
+                  <datatable-pager
+                  [pagerLeftArrowIcon]="'datatable-icon-prev'" 
+                  [pagerPreviousIcon]="'datatable-icon-left'"
+                  [pagerNextIcon]="'datatable-icon-right'"
+                  [pagerRightArrowIcon]="'datatable-icon-next'"
+                  [page]="curPage"
+                  [size]="pageSize"
+                  [count]="rowCount"
+                  [hidden]="!((rowCount / pageSize) > 1)"
+                  (change)="table.onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+              </ngx-datatable-footer>
+
+        </ngx-datatable>
+
+    </div>
+  </div>
+    
+</div>

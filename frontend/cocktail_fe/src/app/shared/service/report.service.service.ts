@@ -7,6 +7,7 @@ import { AppHttpClient } from './app-http-client.service';
 })
 export class ReportServiceService {
   public base_url = environment.apiUrl+"/api/";
+  public cocktail_Url = environment.cockatilUrl + '/api/'
 
   constructor(private httpClient: AppHttpClient) { }
 
@@ -39,12 +40,6 @@ export class ReportServiceService {
     let url = this.base_url+"object/";
 
     return this.httpClient.post(url, data)
-  }
-
-  getPdfUrl(id: number) {
-    let url = this.base_url+"media/"+id+"/"
-
-    return this.httpClient.getBlob(url, {responseType:'blob'})
   }
 
   updateMetas(id: number, data:any){
@@ -127,12 +122,6 @@ export class ReportServiceService {
     let url = this.base_url + 'user/single/number/'
 
     return this.httpClient.get(url)
-  }
-
-  getSplitUrl(split:string, pk: number) {
-    let url = this.base_url + `split/${pk}/${split}/`
-
-    return this.httpClient.getBlob(url, {responseType:'blob'})
   }
 
   deleteDoc(pk:number){

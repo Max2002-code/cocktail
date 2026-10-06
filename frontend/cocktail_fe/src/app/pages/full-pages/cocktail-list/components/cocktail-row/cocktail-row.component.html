@@ -1,0 +1,37 @@
+<div class="cocktail-row">
+
+  <div class="cocktail-image">
+    <img [src]="getSmallThumbail(cocktail.strDrinkThumb)" [alt]="cocktail.strDrink" >
+  </div>
+
+
+  <div class="cocktail-name">
+    {{ cocktail.strDrink }}
+  </div>
+
+
+  <div class="cocktail-actions">
+
+    <button
+      type="button"
+      class="icon-btn favorite-btn"
+      [class.active]="favorite"
+      (click)="toggleFavorite()"
+      aria-label="Preferito"
+    >
+      <i [class]="favorite ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+    </button>
+
+
+    <button
+      type="button"
+      class="icon-btn open-btn"
+      (click)="openCocktail()"
+      aria-label="Apri cocktail"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+  </div>
+
+</div>

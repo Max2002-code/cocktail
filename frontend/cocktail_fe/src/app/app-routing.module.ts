@@ -15,7 +15,7 @@ const routes: Routes = [
   },
 
   {
-    path: '', component:FullLayaoutComponent, data:{title:'full View'}, children:FULL_ROUTES, canActivate:[AuthGuard]
+    path: '', component:FullLayaoutComponent, data:{title:'full View'}, children:FULL_ROUTES, //canActivate:[AuthGuard]
   },
   {
     path:'',  component:ContentLayoutComponent, data:{title:'content view'}, children:CONTENT_ROUTES

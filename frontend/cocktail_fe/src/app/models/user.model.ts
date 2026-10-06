@@ -31,17 +31,9 @@ export class Company{
 
 export class UserModel extends AuthModel{
 
-    is_superuser=false;
     id=0;
     username='' ;
     password='';
-    email='';
-    group: Group[]=[]
-    user_type = '';
-    first_name = '';
-    last_name = ''
-    full_name = ''
-    company: Company = new Company()
 
     constructor(init?: Partial<UserModel>) {
         super();
@@ -55,19 +47,5 @@ export class UserModel extends AuthModel{
         this.id = user.id;
         this.username=user.username || '';
         this.password=user.password || '';
-        this.email=user.email || '';
-        this.group=user.group || []
-        this.user_type=user.user_type || '';
-        this.first_name=user.first_name || '';
-        this.last_name=user.last_name || '';
-        this.full_name=user.full_name || '';
-
-        if(user.company){
-            this.company = Object.assign(new Company(), user.company)
-
-            if (user.company.categories){
-                this.company.categories = Object.assign(new Category(), user.company.categories)
-            }
-        }
     }
 }

@@ -1,23 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
-import { DocumentComponent } from './document/document.component';
 import { NgModule } from '@angular/core';
-import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
-import { StatisticsComponent } from './statistics/statistics.component';
-import { LottiComponent } from './lotti/lotti.component';
-import { UsersComponent } from './users/users.component';
-import { ReportComponent } from './report/report.component';
+import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
 
 const routes: Routes = [
     {
         path:'',
         children:[
             { path:'', redirectTo: '', pathMatch:"full" },
-            { path:'documenti', component: DocumentComponent, data: {title: 'list'} },
-            { path:'viewer/:tipo/:id', component: PdfViewerComponent,},
-            { path: 'statistics', component:StatisticsComponent},
-            { path: 'scatole', component:LottiComponent},
-            { path: 'userStats', component:UsersComponent },
-            { path: 'user/single', component:ReportComponent },
+            { path: 'cocktail_list', component: CocktailListComponent }
         ]
     }
 ]

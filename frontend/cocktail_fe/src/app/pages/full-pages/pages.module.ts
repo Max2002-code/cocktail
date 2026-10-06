@@ -2,16 +2,12 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { FullPagesRoutingModule } from "./pages-routing";
-import { DocumentComponent } from "./document/document.component";
 import { FormsModule } from "@angular/forms";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
-import { SafeUrlPipe } from "./pdf-viewer/pipe";
-import { StatisticsComponent } from './statistics/statistics.component';
-import { LottiComponent } from './lotti/lotti.component';
-import { UsersComponent } from './users/users.component';
-import { ReportComponent } from './report/report.component';
 import { IMaskModule } from "angular-imask";
+import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
+import { SharedModule } from "../shared-pages/shared.module";
+import { CocktailRowComponent } from './cocktail-list/components/cocktail-row/cocktail-row.component';
 
 @NgModule({
     imports: [
@@ -21,15 +17,11 @@ import { IMaskModule } from "angular-imask";
         FormsModule,
         NgxDatatableModule,
         IMaskModule,
+        SharedModule
     ],
     declarations: [
-        DocumentComponent,
-        PdfViewerComponent,
-        SafeUrlPipe,
-        StatisticsComponent,
-        LottiComponent,
-        UsersComponent,
-        ReportComponent,
-    ],
+      CocktailListComponent,
+      CocktailRowComponent,
+  ],
 })
 export class FullPagesModule { }

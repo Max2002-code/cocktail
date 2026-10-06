@@ -1,0 +1,25 @@
+<div class="toast-container">
+
+  <div
+    class="toast"
+    *ngIf="visible"
+    [ngClass]="type"
+    role="alert"
+    aria-live="assertive"
+  >
+
+    <span class="toast-message">
+      {{ message }}
+    </span>
+
+    <button
+      class="toast-close"
+      (click)="close_toast()"
+      aria-label="Chiudi notifica"
+    >
+      &times;
+    </button>
+
+  </div>
+
+</div>

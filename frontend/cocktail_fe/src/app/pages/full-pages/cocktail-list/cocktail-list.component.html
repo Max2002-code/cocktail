@@ -1,0 +1,64 @@
+<div class="catalog-page">
+
+  <div class="catalog-wrapper">
+
+    <div class="catalog-header">
+      <h1>Esplora i cocktail</h1>
+      <p>Scegli una categoria e consulta l'elenco dei drink disponibili.</p>
+    </div>
+
+    <div class="category-tabs">
+      <button
+        *ngFor="let category of categories"
+        type="button"
+        class="category-tab"
+        [class.active]="selectedCategory === category.strCategory"
+        (click)="selectCategory(category.strCategory)"
+      >
+        {{ category.strCategory }}
+      </button>
+    </div>
+
+    <div class="catalog-box">
+
+      <div class="catalog-title-row">
+        <h2>{{ selectedCategory || 'Cocktail' }}</h2>
+
+        <span class="results-count" *ngIf="cocktails.length">
+          {{ cocktails.length }} drink
+        </span>
+      </div>
+
+      <div class="cocktail-list" *ngIf="cocktails.length; else emptyState">
+
+        <app-cocktail-row
+          *ngFor="let cocktail of paginatedCocktails"
+          [cocktail]="cocktail"
+          [favorite]="isFavorite(cocktail.idDrink)"
+          (favoriteChange)="toggleFavorite($event)"
+          (open)="openCocktailDetail($event)"
+        ></app-cocktail-row>
+
+        <app-paginator
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        [totalItems]="cocktails.length"
+        [pageSize]="pageSize"
+        (pageChange)="onPageChange($event)"
+        >
+        </app-paginator>
+
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <h3>Nessun cocktail da mostrare</h3>
+          <p>Seleziona una categoria per visualizzare l’elenco dei drink.</p>
+        </div>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+</div>

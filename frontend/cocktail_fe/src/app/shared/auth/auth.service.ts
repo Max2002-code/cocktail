@@ -3,8 +3,9 @@ import { BehaviorSubject, catchError, finalize, map, Observable, of, Subscriptio
 import { environment } from 'src/environments/environment';
 // Import or define UserType
 import { UserModel } from 'src/app/models/user.model';
-import { ReportServiceService } from '../service/report.service.service';
 import { Router } from '@angular/router';
+import { ApiService } from '../service/api.service';
+import { ReportServiceService } from '../service/report.service.service';
 
 export type UserType = UserModel | undefined;
 
@@ -63,7 +64,7 @@ export class AuthService implements OnDestroy{
     localStorage.removeItem(this.authLocalStorageToken);
     localStorage.removeItem(this.userLocalStorageToken);
     
-    this.router.navigate(['/login'], {
+    this.router.navigate(['/cocktail_list'], {
       queryParams: {  }
     })
   }

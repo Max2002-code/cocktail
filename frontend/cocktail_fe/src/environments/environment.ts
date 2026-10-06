@@ -1,9 +1,7 @@
 export const environment = {
     production : false,
-    USER_KEY : "mdt",
-    apiUrl : "http://192.168.2.160:8000",
+    USER_KEY : "ckt",
+    apiUrl : "http://localhost:3000",
+    cockatilUrl:"https://www.thecocktaildb.com",
     debug: true
 }
-
-
-//http://192.168.2.160:8000

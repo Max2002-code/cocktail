@@ -13,12 +13,12 @@ import { StoreModule } from '@ngrx/store';
 import { ApiInterceptionService } from './shared/service/api-interception.service';
 import { UserModel } from './models/user.model';
 import { AuthService } from './shared/auth/auth.service';
-import { ReportServiceService } from './shared/service/report.service.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { LogoutComponent } from './pages/content-pages/logout/logout.component';
 import { ErrorComponent } from './pages/content-pages/error/error.component';
-import { FooterComponent } from './shared/footer/footer/footer.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ApiService } from './shared/service/api.service';
+import { ToastComponent } from './pages/shared-pages/toast/toast.component';
 
 export interface AppState {
   auth: any;
@@ -39,10 +39,10 @@ function appInitializer(authService: AuthService) {
   declarations: [
     AppComponent,
     FullLayaoutComponent,
-    FooterComponent,
     ContentLayoutComponent,
     LogoutComponent,
     ErrorComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +57,7 @@ function appInitializer(authService: AuthService) {
   providers: [AppHttpClient,
     {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptionService, multi:true}, 
     {provide: APP_INITIALIZER, useFactory: appInitializer, multi:true, deps:[AuthService]},
-    ReportServiceService,
+    ApiService,
     AuthGuard,
     provideNgxMask()],
   bootstrap: [AppComponent]

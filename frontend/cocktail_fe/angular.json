@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mt_fe",
+            "outputPath": "dist/cocktail-fe",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mt_fe:build:production"
+              "browserTarget": "cocktail-fe:build:production"
             },
             "development": {
-              "browserTarget": "mt_fe:build:development"
+              "browserTarget": "cocktail-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mt_fe:build"
+            "browserTarget": "cocktail-fe:build"
           }
         },
         "test": {
@@ -94,7 +94,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@swimlane/ngx-datatable/themes/material.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": []
           }

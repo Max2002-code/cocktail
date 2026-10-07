@@ -2,12 +2,70 @@
 
   <div class="catalog-wrapper">
 
-    <div class="catalog-header">
-      <h1>Esplora i cocktail</h1>
-      <p>Scegli una categoria e consulta l'elenco dei drink disponibili.</p>
+    <!-- =====================================================
+         HEADER + FILTRI
+         ===================================================== -->
+    <div class="page-topbar">
+
+      <div class="catalog-header">
+        <h1>Esplora i cocktail</h1>
+
+        <p>
+          Scegli una categoria e consulta l'elenco dei drink disponibili.
+        </p>
+      </div>
+
+
+      <!-- FILTRI -->
+      <div class="catalog-filters">
+
+        <div class="filter-group">
+          <label for="sort">Ordina per</label>
+
+          <select
+            id="sort"
+            [(ngModel)]="sortBy"
+            (change)="applyFilters()"
+          >
+            <option value="name-asc">
+              Nome A-Z
+            </option>
+
+            <option value="name-desc">
+              Nome Z-A
+            </option>
+          </select>
+        </div>
+
+
+        <label class="favorite-filter">
+
+          <input
+            type="checkbox"
+            [(ngModel)]="onlyFavorites"
+            (change)="applyFilters()"
+          />
+
+          <span class="favorite-filter-icon">
+            <i class="fa-regular fa-star"></i>
+          </span>
+
+          <span>
+            Solo preferiti
+          </span>
+
+        </label>
+
+      </div>
+
     </div>
 
+
+    <!-- =====================================================
+         CATEGORIE
+         ===================================================== -->
     <div class="category-tabs">
+
       <button
         *ngFor="let category of categories"
         type="button"
@@ -17,44 +75,111 @@
       >
         {{ category.strCategory }}
       </button>
+
     </div>
 
+
+    <!-- =====================================================
+         CATALOGO
+         ===================================================== -->
     <div class="catalog-box">
 
+      <!-- HEADER LISTA -->
       <div class="catalog-title-row">
-        <h2>{{ selectedCategory || 'Cocktail' }}</h2>
 
-        <span class="results-count" *ngIf="cocktails.length">
-          {{ cocktails.length }} drink
+        <h2>
+          {{ selectedCategory || 'Cocktail' }}
+        </h2>
+
+
+        <!-- RICERCA -->
+        <div class="catalog-search">
+
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="applyFilters()"
+            placeholder="Cerca nella categoria..."
+          />
+
+          <button
+            type="button"
+            class="search-button"
+            (click)="applyFilters()"
+          >
+            Cerca
+          </button>
+
+        </div>
+
+
+        <span
+          class="results-count"
+          *ngIf="filteredCocktails.length"
+        >
+          {{ filteredCocktails.length }} drink
         </span>
+
       </div>
 
-      <div class="cocktail-list" *ngIf="cocktails.length; else emptyState">
+
+      <!-- =====================================================
+           LISTA COCKTAIL
+           ===================================================== -->
+      <div
+        class="cocktail-list"
+        *ngIf="filteredCocktails.length; else emptyState"
+      >
 
         <app-cocktail-row
           *ngFor="let cocktail of paginatedCocktails"
           [cocktail]="cocktail"
           [favorite]="isFavorite(cocktail.idDrink)"
+          (mouseenter)="preloadCocktailImage(cocktail)"
           (favoriteChange)="toggleFavorite($event)"
           (open)="openCocktailDetail($event)"
-        ></app-cocktail-row>
+        >
+        </app-cocktail-row>
+
 
         <app-paginator
-        [currentPage]="currentPage"
-        [totalPages]="totalPages"
-        [totalItems]="cocktails.length"
-        [pageSize]="pageSize"
-        (pageChange)="onPageChange($event)"
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [totalItems]="filteredCocktails.length"
+          [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)"
         >
         </app-paginator>
 
       </div>
 
+
+      <!-- =====================================================
+           EMPTY STATE
+           ===================================================== -->
       <ng-template #emptyState>
+
         <div class="empty-state">
-          <h3>Nessun cocktail da mostrare</h3>
-          <p>Seleziona una categoria per visualizzare l’elenco dei drink.</p>
+
+          <i class="fa-solid fa-martini-glass-citrus empty-icon"></i>
+
+          <h3>
+            Nessun cocktail da mostrare
+          </h3>
+
+          <p *ngIf="!searchTerm">
+            Seleziona una categoria per visualizzare l’elenco dei drink.
+          </p>
+
+          <p *ngIf="searchTerm">
+            Nessun cocktail corrisponde a
+            <strong>"{{ searchTerm }}"</strong>.
+          </p>
+
         </div>
+
       </ng-template>
 
     </div>

@@ -1,0 +1,110 @@
+:host {
+  display: block;
+
+  position: relative;
+
+  z-index: 999999;
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.transition-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  z-index: 999999;
+
+  pointer-events: all;
+}
+
+
+/* =========================================================
+   BACKDROP
+   ========================================================= */
+
+.transition-backdrop {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    rgba(
+      8,
+      18,
+      30,
+      0.48
+    );
+
+  opacity: 0;
+}
+
+
+/* =========================================================
+   IMMAGINE ANIMATA
+   ========================================================= */
+
+.transition-image {
+  position: fixed;
+
+  display: block;
+
+  margin: 0;
+
+  padding: 0;
+
+  object-fit: cover;
+
+  transform-origin: center center;
+
+  will-change:
+    left,
+    top,
+    width,
+    height,
+    transform,
+    filter,
+    opacity,
+    border-radius;
+
+  box-shadow:
+    0 20px 60px
+    rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
+
+  user-select: none;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ACCESSIBILITÀ
+   ========================================================= */
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+
+  .transition-image,
+  .transition-backdrop {
+    transition: none;
+  }
+
+}

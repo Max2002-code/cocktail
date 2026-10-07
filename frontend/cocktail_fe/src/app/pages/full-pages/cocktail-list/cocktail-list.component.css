@@ -4,12 +4,13 @@
 }
 
 
-/* =========================
+/* =========================================================
    PAGINA GENERALE
-========================= */
+   ========================================================= */
 
 .catalog-page {
   min-height: 100%;
+
   padding: 40px 24px 70px;
 
   background:
@@ -35,21 +36,42 @@
 
 .catalog-wrapper {
   width: min(1350px, 96%);
+
   margin: 0 auto;
 }
 
 
-/* =========================
+/* =========================================================
+   HEADER PAGINA + FILTRI
+   ========================================================= */
+
+.page-topbar {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 28px;
+}
+
+
+/* =========================================================
    TITOLO
-========================= */
+   ========================================================= */
 
 .catalog-header {
-  margin-bottom: 26px;
+  flex: 1;
+
+  min-width: 0;
 }
 
 
 .catalog-header h1 {
   margin: 0 0 10px;
+
+  color: #1d1d1f;
 
   font-size: clamp(40px, 5vw, 58px);
   font-weight: 700;
@@ -57,8 +79,6 @@
   line-height: 1.05;
 
   letter-spacing: -1.8px;
-
-  color: #1d1d1f;
 }
 
 
@@ -67,17 +87,161 @@
 
   max-width: 680px;
 
+  color: #5f6b76;
+
   font-size: 18px;
 
   line-height: 1.5;
-
-  color: #5f6b76;
 }
 
 
-/* =========================
-   TABS CATEGORIE
-========================= */
+/* =========================================================
+   FILTRI ALTI
+   ========================================================= */
+
+.catalog-filters {
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SELECT ORDINAMENTO
+   ========================================================= */
+
+.filter-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.filter-group label {
+  padding-left: 2px;
+
+  color: #6b7280;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.filter-group select {
+  height: 42px;
+
+  min-width: 155px;
+
+  padding: 0 34px 0 13px;
+
+  border: 1px solid #cbd5df;
+  border-radius: 11px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #17395c;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.filter-group select:hover {
+  border-color: #9daab7;
+}
+
+
+.filter-group select:focus {
+  border-color: #17395c;
+
+  box-shadow:
+    0 0 0 3px rgba(23, 57, 92, 0.11);
+}
+
+
+/* =========================================================
+   SOLO PREFERITI
+   ========================================================= */
+
+.favorite-filter {
+  display: flex;
+
+  height: 42px;
+
+  padding: 0 14px;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border: 1px solid #cbd5df;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #17395c;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.favorite-filter:hover {
+  border-color: #17395c;
+
+  background: #f7fafd;
+}
+
+
+.favorite-filter input {
+  width: 15px;
+  height: 15px;
+
+  margin: 0;
+
+  accent-color: #17395c;
+
+  cursor: pointer;
+}
+
+
+.favorite-filter-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   CATEGORIE
+   ========================================================= */
 
 .category-tabs {
   display: flex;
@@ -93,10 +257,11 @@
   overflow-x: auto;
   overflow-y: hidden;
 
-  white-space: nowrap;
-
   position: relative;
+
   z-index: 2;
+
+  white-space: nowrap;
 
   scrollbar-width: none;
 }
@@ -107,7 +272,9 @@
 }
 
 
-/* TAB SINGOLO */
+/* =========================================================
+   SINGOLA CATEGORIA
+   ========================================================= */
 
 .category-tab {
   flex: 1 0 auto;
@@ -148,6 +315,7 @@
 
 .category-tab:last-child {
   border-right: 1px solid #cbd5df;
+
   border-top-right-radius: 14px;
 }
 
@@ -155,26 +323,26 @@
 .category-tab:hover {
   position: relative;
 
-  background: #244b72;
+  z-index: 3;
 
-  color: #ffffff;
+  background: #244b72;
 
   border-color: #244b72;
 
-  z-index: 3;
+  color: #ffffff;
 }
 
 
 .category-tab.active {
   position: relative;
 
-  background: #17395c;
+  z-index: 4;
 
-  color: #ffffff;
+  background: #17395c;
 
   border-color: #17395c;
 
-  z-index: 4;
+  color: #ffffff;
 }
 
 
@@ -183,39 +351,43 @@
 }
 
 
-/* =========================
+/* =========================================================
    BOX CATALOGO
-========================= */
+   ========================================================= */
 
 .catalog-box {
+  overflow: hidden;
+
   background: #ffffff;
 
   border: 1px solid #cbd5df;
 
   border-radius: 0 0 20px 20px;
 
-  overflow: hidden;
-
   box-shadow:
     0 18px 45px rgba(17, 24, 39, 0.07);
 }
 
 
-/* =========================
-   HEADER DEL BOX
-========================= */
+/* =========================================================
+   HEADER DEL CATALOGO
+   ========================================================= */
 
 .catalog-title-row {
-  display: flex;
+  display: grid;
+
+  grid-template-columns:
+    minmax(150px, 220px)
+    minmax(300px, 1fr)
+    minmax(90px, auto);
 
   align-items: center;
-  justify-content: space-between;
 
-  gap: 16px;
+  gap: 30px;
 
-  min-height: 76px;
+  min-height: 116px;
 
-  padding: 20px 28px;
+  padding: 22px 28px;
 
   border-bottom: 1px solid #e3e8ee;
 
@@ -231,150 +403,116 @@
 .catalog-title-row h2 {
   margin: 0;
 
+  color: #1d1d1f;
+
   font-size: 30px;
   font-weight: 650;
 
   letter-spacing: -0.7px;
-
-  color: #1d1d1f;
 }
 
 
-.results-count {
-  color: #6b7280;
+/* =========================================================
+   RICERCA
+   ========================================================= */
 
-  font-size: 14px;
-  font-weight: 600;
-}
+.catalog-search {
+  position: relative;
 
-
-/* =========================
-   LISTA COCKTAIL
-========================= */
-
-.cocktail-list {
   display: flex;
-  flex-direction: column;
 
   width: 100%;
+
+  max-width: 650px;
+
+  margin: 0 auto;
+
+  align-items: center;
 }
 
 
-/* RIGA COCKTAIL */
+.catalog-search input {
+  width: 100%;
+  height: 46px;
 
-.cocktail-row {
-  display: grid;
+  padding: 0 46px 0 43px;
 
-  grid-template-columns:
-    72px
-    minmax(0, 1fr)
-    auto;
+  box-sizing: border-box;
 
-  align-items: center;
+  border: 1px solid #d3dce5;
+  border-radius: 13px;
 
-  gap: 18px;
-
-  min-height: 92px;
-
-  padding: 10px 26px;
-
-  border-bottom: 1px solid #e9edf1;
+  outline: none;
 
   background: #ffffff;
 
-  transition:
-    background-color 0.18s ease,
-    padding-left 0.18s ease;
-}
-
-
-.cocktail-row:last-child {
-  border-bottom: none;
-}
-
-
-.cocktail-row:hover {
-  padding-left: 32px;
-
-  background: #f5f8fb;
-}
-
-
-/* =========================
-   FOTO COCKTAIL
-========================= */
-
-.cocktail-image {
-  width: 64px;
-  height: 64px;
-
-  overflow: hidden;
-
-  border-radius: 14px;
-
-  background: #edf2f6;
-
-  box-shadow:
-    0 4px 12px rgba(15, 39, 66, 0.08);
-}
-
-
-.cocktail-image img {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    transform 0.25s ease;
-}
-
-
-.cocktail-row:hover .cocktail-image img {
-  transform: scale(1.05);
-}
-
-
-/* =========================
-   NOME COCKTAIL
-========================= */
-
-.cocktail-name {
-  overflow: hidden;
-
   color: #1d1d1f;
 
-  font-size: 19px;
-  font-weight: 550;
+  font-size: 14px;
+  font-weight: 450;
 
-  letter-spacing: -0.2px;
+  box-shadow:
+    0 3px 10px rgba(17, 24, 39, 0.025);
 
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 
-/* =========================
-   AZIONI
-========================= */
-
-.cocktail-actions {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
+.catalog-search input::placeholder {
+  color: #929da8;
 }
 
 
-.icon-btn {
+.catalog-search input:hover {
+  border-color: #b6c2ce;
+}
+
+
+.catalog-search input:focus {
+  border-color: #17395c;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(23, 57, 92, 0.10);
+}
+
+
+/* =========================================================
+   ICONA RICERCA
+   ========================================================= */
+
+.search-icon {
+  position: absolute;
+
+  left: 16px;
+
+  z-index: 2;
+
+  color: #73808c;
+
+  font-size: 14px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CANCELLA RICERCA
+   ========================================================= */
+
+.clear-search {
+  position: absolute;
+
+  right: 8px;
+
   display: flex;
 
-  width: 40px;
-  height: 40px;
+  width: 31px;
+  height: 31px;
 
   padding: 0;
 
@@ -384,60 +522,62 @@
   border: none;
   border-radius: 50%;
 
+  background: transparent;
+
+  color: #7b8793;
+
   cursor: pointer;
 
   transition:
-    transform 0.18s ease,
     background-color 0.18s ease,
     color 0.18s ease;
 }
 
 
-.icon-btn:hover {
-  transform: scale(1.07);
-}
-
-
-/* PREFERITO */
-
-.favorite-btn {
+.clear-search:hover {
   background: #edf2f6;
 
   color: #17395c;
-
-  font-size: 21px;
 }
 
 
-.favorite-btn:hover {
-  background: #dde6ef;
+/* =========================================================
+   NUMERO RISULTATI
+   ========================================================= */
+
+.results-count {
+  justify-self: end;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
 
-/* DETTAGLIO */
+/* =========================================================
+   LISTA COCKTAIL
+   ========================================================= */
 
-.open-btn {
-  background: #17395c;
+.cocktail-list {
+  display: flex;
 
-  color: #ffffff;
+  width: 100%;
 
-  font-size: 20px;
+  flex-direction: column;
 }
 
 
-.open-btn:hover {
-  background: #244b72;
-}
-
-
-/* =========================
+/* =========================================================
    EMPTY STATE
-========================= */
+   ========================================================= */
 
 .empty-state {
   display: flex;
 
-  min-height: 230px;
+  min-height: 240px;
 
   padding: 45px 24px;
 
@@ -452,13 +592,24 @@
 }
 
 
+.empty-icon {
+  margin-bottom: 18px;
+
+  color: #17395c;
+
+  font-size: 32px;
+
+  opacity: 0.75;
+}
+
+
 .empty-state h3 {
   margin: 0 0 10px;
 
+  color: #1d1d1f;
+
   font-size: 23px;
   font-weight: 650;
-
-  color: #1d1d1f;
 }
 
 
@@ -474,12 +625,56 @@
   line-height: 1.5;
 }
 
+.search-button {
+  height: 46px;
 
-/* =========================
-   RESPONSIVE TABLET
-========================= */
+  padding: 0 20px;
 
-@media (max-width: 950px) {
+  border: none;
+  border-radius: 12px;
+
+  background: #17395c;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.search-button:hover {
+  background: #244b72;
+
+  box-shadow:
+    0 6px 16px rgba(23, 57, 92, 0.18);
+}
+
+
+.search-button:active {
+  transform: scale(0.97);
+}
+
+
+.search-button:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 3px rgba(23, 57, 92, 0.16);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
 
   .catalog-page {
     padding: 32px 18px 60px;
@@ -491,28 +686,49 @@
   }
 
 
+  .page-topbar {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 22px;
+  }
+
+
+  .catalog-filters {
+    width: 100%;
+
+    justify-content: flex-start;
+  }
+
+
   .category-tab {
     flex: 0 0 auto;
+  }
 
-    padding: 10px 14px;
+
+  .catalog-title-row {
+    grid-template-columns:
+      auto
+      minmax(250px, 1fr)
+      auto;
+
+    gap: 20px;
+
+    min-height: 105px;
   }
 
 }
 
 
-/* =========================
-   RESPONSIVE MOBILE
-========================= */
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
 
   .catalog-page {
     padding: 24px 12px 45px;
-  }
-
-
-  .catalog-header {
-    margin-bottom: 20px;
   }
 
 
@@ -528,6 +744,23 @@
   }
 
 
+  .catalog-filters {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+
+  .filter-group select {
+    width: 100%;
+  }
+
+
+  .favorite-filter {
+    justify-content: center;
+  }
+
+
   .category-tab {
     padding: 10px 13px;
 
@@ -536,9 +769,17 @@
 
 
   .catalog-title-row {
-    padding: 18px;
+    display: flex;
 
-    min-height: 68px;
+    min-height: auto;
+
+    padding: 20px 18px;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 16px;
   }
 
 
@@ -547,77 +788,15 @@
   }
 
 
-  .cocktail-row {
-    grid-template-columns:
-      58px
-      minmax(0, 1fr)
-      auto;
+  .catalog-search {
+    max-width: none;
 
-    gap: 12px;
-
-    min-height: 78px;
-
-    padding: 8px 14px;
+    margin: 0;
   }
 
-
-  .cocktail-row:hover {
-    padding-left: 18px;
-  }
-
-
-  .cocktail-image {
-    width: 52px;
-    height: 52px;
-
-    border-radius: 12px;
-  }
-
-
-  .cocktail-name {
-    font-size: 16px;
-  }
-
-
-  .icon-btn {
-    width: 36px;
-    height: 36px;
-  }
-
-}
-
-
-/* =========================
-   MOBILE PICCOLO
-========================= */
-
-@media (max-width: 450px) {
 
   .results-count {
-    display: none;
-  }
-
-
-  .cocktail-row {
-    grid-template-columns:
-      52px
-      minmax(0, 1fr)
-      auto;
-
-    gap: 10px;
-
-    padding: 8px 10px;
-  }
-
-
-  .cocktail-image {
-    width: 48px;
-    height: 48px;
-  }
-
-
-  .favorite-btn {
-    display: none;
+    align-self: flex-end;
   }
 
 }

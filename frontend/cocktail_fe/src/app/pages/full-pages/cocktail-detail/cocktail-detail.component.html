@@ -1,0 +1,300 @@
+<div class="detail-page">
+
+  <!-- =====================================================
+       LOADING
+       ===================================================== -->
+  <div
+    class="detail-state"
+    *ngIf="loading"
+  >
+
+    <div class="loader"></div>
+
+    <p>
+      Caricamento cocktail...
+    </p>
+
+  </div>
+
+
+  <!-- =====================================================
+       ERRORE
+       ===================================================== -->
+  <div
+    class="detail-state error-state"
+    *ngIf="!loading && error"
+  >
+
+    <div class="state-icon">
+      <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+
+    <h2>
+      Cocktail non disponibile
+    </h2>
+
+    <p>
+      Non è stato possibile recuperare le informazioni del cocktail.
+    </p>
+
+    <button
+      type="button"
+      class="primary-button"
+      (click)="goBack()"
+    >
+      Torna al catalogo
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       DETTAGLIO
+       ===================================================== -->
+  <ng-container
+    *ngIf="!loading && !error && cocktail"
+  >
+
+    <div class="detail-wrapper">
+
+
+      <!-- ===================================================
+           NAVIGAZIONE
+           =================================================== -->
+      <div class="detail-navigation">
+
+        <button
+          type="button"
+          class="back-button"
+          (click)="goBack()"
+        >
+
+          <i class="fa-solid fa-arrow-left"></i>
+
+          <span>
+            Torna ai cocktail
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- ===================================================
+           HERO
+           =================================================== -->
+      <section class="cocktail-hero">
+
+
+        <!-- IMMAGINE -->
+        <div class="hero-image-container">
+
+          <img
+            class="hero-image"
+            [src]="cocktail.strDrinkThumb"
+            [alt]="cocktail.strDrink"
+          >
+
+        </div>
+
+
+        <!-- INFORMAZIONI PRINCIPALI -->
+        <div class="hero-content">
+
+
+          <div class="hero-eyebrow">
+            {{ cocktail.strCategory || 'Cocktail' }}
+          </div>
+
+
+          <h1>
+            {{ cocktail.strDrink }}
+          </h1>
+
+
+          <p
+            class="hero-alternate"
+            *ngIf="cocktail.strDrinkAlternate"
+          >
+            {{ cocktail.strDrinkAlternate }}
+          </p>
+
+
+          <!-- META -->
+          <div class="cocktail-meta">
+
+            <div
+              class="meta-item"
+              *ngIf="cocktail.strAlcoholic"
+            >
+
+              <i class="fa-solid fa-martini-glass-citrus"></i>
+
+              <div>
+                <span class="meta-label">
+                  Tipo
+                </span>
+
+                <span class="meta-value">
+                  {{ cocktail.strAlcoholic }}
+                </span>
+              </div>
+
+            </div>
+
+
+            <div
+              class="meta-item"
+              *ngIf="cocktail.strGlass"
+            >
+
+              <i class="fa-solid fa-wine-glass"></i>
+
+              <div>
+                <span class="meta-label">
+                  Bicchiere
+                </span>
+
+                <span class="meta-value">
+                  {{ cocktail.strGlass }}
+                </span>
+              </div>
+
+            </div>
+
+
+            <div
+              class="meta-item"
+              *ngIf="cocktail.strIBA"
+            >
+
+              <i class="fa-solid fa-award"></i>
+
+              <div>
+                <span class="meta-label">
+                  IBA
+                </span>
+
+                <span class="meta-value">
+                  {{ cocktail.strIBA }}
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- TAG -->
+          <div
+            class="tags"
+            *ngIf="tags.length"
+          >
+
+            <span
+              class="tag"
+              *ngFor="let tag of tags"
+            >
+              {{ tag }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           CONTENUTO
+           =================================================== -->
+      <section class="detail-content">
+
+
+        <!-- INGREDIENTI -->
+        <div class="detail-section ingredients-section">
+
+          <div class="section-heading">
+
+            <span class="section-number">
+              01
+            </span>
+
+            <div>
+              <h2>
+                Ingredienti
+              </h2>
+
+              <p>
+                Tutto ciò che serve per preparare il cocktail.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="ingredients-list">
+
+            <div
+              class="ingredient-row"
+              *ngFor="let ingredient of ingredients"
+            >
+
+              <span class="ingredient-name">
+                {{ ingredient.name }}
+              </span>
+
+
+              <span class="ingredient-line"></span>
+
+
+              <span class="ingredient-measure">
+                {{ ingredient.measure || 'q.b.' }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PREPARAZIONE -->
+        <div class="detail-section preparation-section">
+
+          <div class="section-heading">
+
+            <span class="section-number">
+              02
+            </span>
+
+            <div>
+              <h2>
+                Preparazione
+              </h2>
+
+              <p>
+                Segui i passaggi per preparare il drink.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="instructions">
+
+            <p>
+              {{ instructions }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </ng-container>
+
+</div>

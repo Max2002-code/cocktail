@@ -8,6 +8,7 @@ import { IMaskModule } from "angular-imask";
 import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
 import { SharedModule } from "../shared-pages/shared.module";
 import { CocktailRowComponent } from './cocktail-list/components/cocktail-row/cocktail-row.component';
+import { CocktailDetailComponent } from './cocktail-detail/cocktail-detail.component';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { CocktailRowComponent } from './cocktail-list/components/cocktail-row/co
     declarations: [
       CocktailListComponent,
       CocktailRowComponent,
+      CocktailDetailComponent,
   ],
 })
 export class FullPagesModule { }

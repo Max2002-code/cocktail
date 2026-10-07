@@ -6,6 +6,11 @@ interface Cocktail{
   strDrinkThumb: string
 }
 
+export interface CocktailOpenEvent {
+  cocktail: Cocktail
+  imageRect: DOMRect
+}
+
 @Component({
   selector: 'app-cocktail-row',
   templateUrl: './cocktail-row.component.html',
@@ -17,17 +22,32 @@ export class CocktailRowComponent {
   @Input() favorite: boolean = false
 
   @Output() favoriteChange = new EventEmitter<string>()
-  @Output() open = new EventEmitter<string>()
+  @Output() open = new EventEmitter<CocktailOpenEvent>()
 
-  toggleFavorite(): void {
+  toggleFavorite(event:MouseEvent): void {
+
+    event.stopPropagation()
+
     this.favoriteChange.emit(this.cocktail.idDrink)
   }
 
-  openCocktail(): void {
-    this.open.emit(this.cocktail.idDrink)
+  openCocktail(imageElement: HTMLElement): void {
+    const imageRect = imageElement.getBoundingClientRect()
+
+    this.open.emit({ cocktail:this.cocktail, imageRect })
+  }
+
+  openFromButton(event: MouseEvent, imageElement:HTMLElement){
+    event.stopPropagation()
+
+    this.openCocktail(imageElement)
   }
 
   getSmallThumbail(src:string){
+    if (!src){
+      return ''
+    }
+    
     return src + '/small'
   }
 

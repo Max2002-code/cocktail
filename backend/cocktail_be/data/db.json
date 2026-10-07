@@ -14,25 +14,6 @@
     }
   ],
   "favorites": [
-    {
-      "userId": 1791232923345,
-      "cocktailId": "6127846",
-      "active": true
-    },
-    {
-      "userId": 1791232923345,
-      "cocktailId": "235343",
-      "active": true
-    },
-    {
-      "userId": 1791232923345,
-      "cocktailId": "gec5454c52c",
-      "active": true
-    },
-    {
-      "userId": 1791232923345,
-      "cocktailId": "325cx6hyh3c5",
-      "active": true
-    }
+    
   ]
 }

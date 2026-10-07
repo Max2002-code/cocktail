@@ -23,4 +23,16 @@ export class ApiService {
 
     return this.httpClient.getExternal(url)
   }
+
+  getCocktailByName(name:string){
+    let url = this.cocktail_Url + `/json/v1/1/search.php?s=${name}`
+
+    return this.httpClient.get(url)
+  }
+
+  getCocktailById(id:string){
+    let url = this.cocktail_Url + `/json/v1/1/lookup.php?i=${id}`
+
+    return this.httpClient.get(url)
+  }
 }

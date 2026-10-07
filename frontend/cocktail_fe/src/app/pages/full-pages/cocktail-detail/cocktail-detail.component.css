@@ -1,0 +1,829 @@
+:host {
+  display: block;
+
+  min-height: 100%;
+}
+
+
+/* =========================================================
+   PAGINA
+   ========================================================= */
+
+.detail-page {
+  min-height: 100vh;
+
+  padding: 30px 24px 80px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #eef3f8 0%,
+      #f7f9fb 45%,
+      #f4f6f8 100%
+    );
+
+  color: #1d1d1f;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+
+.detail-wrapper {
+  width: min(1350px, 96%);
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   NAVIGAZIONE
+   ========================================================= */
+
+.detail-navigation {
+  display: flex;
+
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+
+.back-button {
+  display: inline-flex;
+
+  height: 42px;
+
+  padding: 0 15px;
+
+  align-items: center;
+
+  gap: 9px;
+
+  border: 1px solid #cbd5df;
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  color: #17395c;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(10px);
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.back-button:hover {
+  background: #ffffff;
+
+  border-color: #17395c;
+
+  transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.cocktail-hero {
+  display: grid;
+
+  grid-template-columns:
+    minmax(350px, 0.9fr)
+    minmax(420px, 1.1fr);
+
+  min-height: 620px;
+
+  overflow: hidden;
+
+  border: 1px solid #d9e1e8;
+  border-radius: 30px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 24px 70px rgba(17, 24, 39, 0.08);
+}
+
+
+/* =========================================================
+   IMMAGINE HERO
+   ========================================================= */
+
+.hero-image-container {
+  position: relative;
+
+  min-height: 620px;
+
+  overflow: hidden;
+
+  background: #dfe6ed;
+}
+
+
+.hero-image-container::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 75%,
+      rgba(0, 0, 0, 0.04) 100%
+    );
+
+  pointer-events: none;
+}
+
+
+.hero-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+
+  inset: 0;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.6s cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+
+.cocktail-hero:hover .hero-image {
+  transform: scale(1.025);
+}
+
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.hero-content {
+  display: flex;
+
+  padding: clamp(45px, 6vw, 90px);
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+
+.hero-eyebrow {
+  margin-bottom: 18px;
+
+  color: #17395c;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+
+.hero-content h1 {
+  margin: 0;
+
+  color: #161719;
+
+  font-size:
+    clamp(
+      48px,
+      6vw,
+      82px
+    );
+
+  font-weight: 700;
+
+  line-height: 0.98;
+
+  letter-spacing: -3px;
+}
+
+
+.hero-alternate {
+  margin: 18px 0 0;
+
+  color: #6b7280;
+
+  font-size: 18px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   METADATI
+   ========================================================= */
+
+.cocktail-meta {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 12px;
+
+  margin-top: 45px;
+}
+
+
+.meta-item {
+  display: flex;
+
+  min-height: 75px;
+
+  padding: 14px;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px solid #e0e6ec;
+  border-radius: 15px;
+
+  background: #f8fafc;
+}
+
+
+.meta-item > i {
+  display: flex;
+
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e8eef4;
+
+  color: #17395c;
+
+  font-size: 14px;
+}
+
+
+.meta-item > div {
+  display: flex;
+
+  min-width: 0;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.meta-label {
+  color: #8a949f;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+}
+
+
+.meta-value {
+  overflow: hidden;
+
+  color: #1d1d1f;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TAG
+   ========================================================= */
+
+.tags {
+  display: flex;
+
+  margin-top: 24px;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+
+.tag {
+  padding: 7px 11px;
+
+  border-radius: 100px;
+
+  background: #edf2f6;
+
+  color: #17395c;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   CONTENUTO SOTTO HERO
+   ========================================================= */
+
+.detail-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 24px;
+
+  margin-top: 24px;
+}
+
+
+/* =========================================================
+   SEZIONI
+   ========================================================= */
+
+.detail-section {
+  min-height: 440px;
+
+  padding: 38px;
+
+  border: 1px solid #dce3e9;
+  border-radius: 24px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.82
+  );
+
+  box-shadow:
+    0 14px 40px rgba(
+      17,
+      24,
+      39,
+      0.045
+    );
+
+  backdrop-filter: blur(10px);
+}
+
+
+/* =========================================================
+   HEADER SEZIONE
+   ========================================================= */
+
+.section-heading {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 17px;
+
+  margin-bottom: 35px;
+}
+
+
+.section-number {
+  display: flex;
+
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #17395c;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #1d1d1f;
+
+  font-size: 28px;
+  font-weight: 650;
+
+  letter-spacing: -0.7px;
+}
+
+
+.section-heading p {
+  margin: 5px 0 0;
+
+  color: #7a8591;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   INGREDIENTI
+   ========================================================= */
+
+.ingredients-list {
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.ingredient-row {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    1fr
+    auto;
+
+  min-height: 49px;
+
+  align-items: center;
+
+  gap: 13px;
+}
+
+
+.ingredient-name {
+  color: #26282b;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.ingredient-line {
+  height: 1px;
+
+  background:
+    repeating-linear-gradient(
+      to right,
+      #d7dee5 0,
+      #d7dee5 3px,
+      transparent 3px,
+      transparent 7px
+    );
+}
+
+
+.ingredient-measure {
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PREPARAZIONE
+   ========================================================= */
+
+.instructions {
+  padding-left: 58px;
+}
+
+
+.instructions p {
+  margin: 0;
+
+  color: #3f454c;
+
+  font-size: 17px;
+
+  line-height: 1.85;
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.detail-state {
+  display: flex;
+
+  min-height: calc(
+    100vh - 180px
+  );
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+.detail-state p {
+  margin: 18px 0 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+}
+
+
+.loader {
+  width: 42px;
+  height: 42px;
+
+  border: 3px solid #dce3ea;
+  border-top-color: #17395c;
+
+  border-radius: 50%;
+
+  animation:
+    loader-spin 0.8s linear infinite;
+}
+
+
+@keyframes loader-spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+.error-state h2 {
+  margin: 18px 0 8px;
+
+  color: #1d1d1f;
+
+  font-size: 28px;
+}
+
+
+.error-state p {
+  margin: 0 0 25px;
+}
+
+
+.state-icon {
+  display: flex;
+
+  width: 65px;
+  height: 65px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #edf2f6;
+
+  color: #17395c;
+
+  font-size: 24px;
+}
+
+
+.primary-button {
+  height: 44px;
+
+  padding: 0 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #17395c;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.primary-button:hover {
+  background: #244b72;
+}
+
+
+.primary-button:active {
+  transform: scale(0.97);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .cocktail-hero {
+    grid-template-columns:
+      minmax(300px, 0.9fr)
+      minmax(350px, 1.1fr);
+
+    min-height: 540px;
+  }
+
+
+  .hero-image-container {
+    min-height: 540px;
+  }
+
+
+  .hero-content {
+    padding: 45px;
+  }
+
+
+  .hero-content h1 {
+    font-size:
+      clamp(
+        44px,
+        6vw,
+        64px
+      );
+
+    letter-spacing: -2px;
+  }
+
+
+  .cocktail-meta {
+    grid-template-columns: 1fr;
+
+    margin-top: 32px;
+  }
+
+
+  .detail-content {
+    grid-template-columns: 1fr;
+  }
+
+
+  .detail-section {
+    min-height: auto;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .detail-page {
+    padding:
+      20px
+      12px
+      50px;
+  }
+
+
+  .detail-wrapper {
+    width: 100%;
+  }
+
+
+  .detail-navigation {
+    margin-bottom: 16px;
+  }
+
+
+  .cocktail-hero {
+    display: flex;
+
+    min-height: 0;
+
+    flex-direction: column;
+
+    border-radius: 22px;
+  }
+
+
+  .hero-image-container {
+    width: 100%;
+    min-height: auto;
+
+    aspect-ratio: 1 / 1;
+  }
+
+
+  .hero-content {
+    padding:
+      35px
+      24px
+      40px;
+  }
+
+
+  .hero-content h1 {
+    font-size: 46px;
+
+    letter-spacing: -1.8px;
+  }
+
+
+  .cocktail-meta {
+    margin-top: 30px;
+  }
+
+
+  .detail-content {
+    gap: 14px;
+
+    margin-top: 14px;
+  }
+
+
+  .detail-section {
+    padding: 27px 22px;
+
+    border-radius: 20px;
+  }
+
+
+  .section-heading {
+    margin-bottom: 26px;
+
+    gap: 13px;
+  }
+
+
+  .section-heading h2 {
+    font-size: 24px;
+  }
+
+
+  .instructions {
+    padding-left: 0;
+  }
+
+
+  .instructions p {
+    font-size: 16px;
+
+    line-height: 1.75;
+  }
+
+}

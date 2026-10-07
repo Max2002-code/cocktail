@@ -1,13 +1,15 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
+import { CocktailDetailComponent } from './cocktail-detail/cocktail-detail.component';
 
 const routes: Routes = [
     {
         path:'',
         children:[
             { path:'', redirectTo: '', pathMatch:"full" },
-            { path: 'cocktail_list', component: CocktailListComponent }
+            { path: 'cocktails', component: CocktailListComponent },
+            { path: 'cocktail/:id', component:CocktailDetailComponent }
         ]
     }
 ]

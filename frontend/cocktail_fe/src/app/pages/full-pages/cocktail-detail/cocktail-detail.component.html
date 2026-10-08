@@ -6,9 +6,10 @@
   <div
     class="detail-state"
     *ngIf="loading"
+    role="status"
   >
 
-    <div class="loader"></div>
+    <div class="loader" aria-hidden="true"></div>
 
     <p>
       Caricamento cocktail...
@@ -25,7 +26,7 @@
     *ngIf="!loading && error"
   >
 
-    <div class="state-icon">
+    <div class="state-icon" aria-hidden="true">
       <i class="fa-solid fa-circle-exclamation"></i>
     </div>
 
@@ -49,252 +50,261 @@
 
 
   <!-- =====================================================
-       DETTAGLIO
+       SCENA
        ===================================================== -->
-  <ng-container
-    *ngIf="!loading && !error && cocktail"
-  >
-
-    <div class="detail-wrapper">
+  <div class="scene" *ngIf="!loading && !error && cocktail">
 
 
-      <!-- ===================================================
-           NAVIGAZIONE
-           =================================================== -->
-      <div class="detail-navigation">
+    <!-- ===================================================
+         TESTA: titolo e dati
+         =================================================== -->
+    <header class="scene-head">
 
-        <button
-          type="button"
-          class="back-button"
-          (click)="goBack()"
+      <button
+        type="button"
+        class="back-button"
+        (click)="goBack()"
+      >
+
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+
+        <span>
+          Torna ai cocktail
+        </span>
+
+      </button>
+
+
+      <p class="hero-eyebrow">
+        {{ cocktail.strCategory || 'Cocktail' }}
+        <span class="hero-code">N° {{ cocktail.idDrink }}</span>
+      </p>
+
+      <h1>
+        {{ cocktail.strDrink }}
+      </h1>
+
+      <p
+        class="hero-alternate"
+        *ngIf="cocktail.strDrinkAlternate"
+      >
+        {{ cocktail.strDrinkAlternate }}
+      </p>
+
+
+      <dl class="facts">
+
+        <div class="fact" *ngIf="cocktail.strAlcoholic">
+          <dt>Tipo</dt>
+          <dd>{{ cocktail.strAlcoholic }}</dd>
+        </div>
+
+        <div class="fact" *ngIf="cocktail.strIBA">
+          <dt>IBA</dt>
+          <dd>{{ cocktail.strIBA }}</dd>
+        </div>
+
+        <div class="fact" *ngIf="cocktail.strGlass">
+          <dt>Bicchiere</dt>
+          <dd>{{ cocktail.strGlass }}</dd>
+        </div>
+
+      </dl>
+
+
+      <ul
+        class="tags"
+        *ngIf="tags.length"
+        aria-label="Tag"
+      >
+
+        <li
+          class="tag"
+          *ngFor="let tag of tags.slice(0, 5)"
         >
+          {{ tag }}
+        </li>
 
-          <i class="fa-solid fa-arrow-left"></i>
+      </ul>
 
-          <span>
-            Torna ai cocktail
-          </span>
+    </header>
 
-        </button>
+
+    <!-- ===================================================
+         PREPARAZIONE
+         =================================================== -->
+    <section class="scene-steps">
+
+      <div class="section-heading">
+
+        <span class="section-number">
+          02
+        </span>
+
+        <h2>
+          Preparazione
+        </h2>
 
       </div>
 
 
-      <!-- ===================================================
-           HERO
-           =================================================== -->
-      <section class="cocktail-hero">
+      <p class="instructions">
+        {{ instructions }}
+      </p>
+
+    </section>
 
 
-        <!-- IMMAGINE -->
-        <div class="hero-image-container">
+    <!-- ===================================================
+         PALCO: mensola con gli ingredienti, bicchiere, banco
+         =================================================== -->
+    <section class="stage" aria-label="Il drink e i suoi ingredienti">
+
+      <!-- la mensola ripete gli ingredienti della scheda: per i lettori di schermo c'è solo la scheda -->
+      <div class="shelf" aria-hidden="true" [style.--count]="ingredients.length">
+
+        <div
+          class="shelf-item"
+          *ngFor="let ingredient of ingredients; let i = index"
+          [class.is-active]="activeIndex === i"
+          [attr.data-name]="ingredient.name"
+        >
 
           <img
-            class="hero-image"
-            [src]="cocktail.strDrinkThumb"
-            [alt]="cocktail.strDrink"
+            *ngIf="!ingredient.noImage"
+            [src]="ingredient.imageBig"
+            alt=""
+            decoding="async"
+            (error)="ingredient.noImage = true"
           >
+
+          <span
+            *ngIf="ingredient.noImage"
+            class="shelf-dot"
+          ></span>
 
         </div>
 
+      </div>
 
-        <!-- INFORMAZIONI PRINCIPALI -->
-        <div class="hero-content">
-
-
-          <div class="hero-eyebrow">
-            {{ cocktail.strCategory || 'Cocktail' }}
-          </div>
+      <div class="shelf-plank" aria-hidden="true"></div>
 
 
-          <h1>
-            {{ cocktail.strDrink }}
-          </h1>
+      <div class="stage-glass">
+
+        <app-glass
+          [glass]="cocktail.strGlass"
+          [layers]="layers"
+          [filled]="filled"
+          [labelGlass]="cocktail.strGlass || ''"
+        >
+        </app-glass>
+
+      </div>
 
 
-          <p
-            class="hero-alternate"
-            *ngIf="cocktail.strDrinkAlternate"
-          >
-            {{ cocktail.strDrinkAlternate }}
-          </p>
+      <div class="stage-counter" aria-hidden="true"></div>
+
+      <!-- la foto del drink, appoggiata sul banco -->
+      <figure class="polaroid" [class.is-landing]="transitionActive$ | async">
+
+        <img
+          data-transition-target
+          [src]="cocktail.strDrinkThumb"
+          [alt]="cocktail.strDrink"
+          decoding="async"
+        >
+
+      </figure>
+
+    </section>
 
 
-          <!-- META -->
-          <div class="cocktail-meta">
+    <!-- ===================================================
+         SCHEDA (carta): ingredienti
+         =================================================== -->
+    <aside class="card on-paper">
 
-            <div
-              class="meta-item"
-              *ngIf="cocktail.strAlcoholic"
+      <div class="section-heading">
+
+        <span class="section-number">
+          01
+        </span>
+
+        <h2>
+          Ingredienti
+        </h2>
+
+      </div>
+
+
+      <ul class="ingredients-list">
+
+        <li
+          class="ingredient-row"
+          *ngFor="let ingredient of ingredients; let i = index"
+          tabindex="0"
+          [class.is-active]="activeIndex === i"
+          (mouseenter)="setActive(i)"
+          (mouseleave)="setActive(null)"
+          (focus)="setActive(i)"
+          (blur)="setActive(null)"
+        >
+
+          <span class="ingredient-photo">
+
+            <img
+              *ngIf="!ingredient.noImage"
+              [src]="ingredient.image"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              (error)="ingredient.noImage = true"
             >
-
-              <i class="fa-solid fa-martini-glass-citrus"></i>
-
-              <div>
-                <span class="meta-label">
-                  Tipo
-                </span>
-
-                <span class="meta-value">
-                  {{ cocktail.strAlcoholic }}
-                </span>
-              </div>
-
-            </div>
-
-
-            <div
-              class="meta-item"
-              *ngIf="cocktail.strGlass"
-            >
-
-              <i class="fa-solid fa-wine-glass"></i>
-
-              <div>
-                <span class="meta-label">
-                  Bicchiere
-                </span>
-
-                <span class="meta-value">
-                  {{ cocktail.strGlass }}
-                </span>
-              </div>
-
-            </div>
-
-
-            <div
-              class="meta-item"
-              *ngIf="cocktail.strIBA"
-            >
-
-              <i class="fa-solid fa-award"></i>
-
-              <div>
-                <span class="meta-label">
-                  IBA
-                </span>
-
-                <span class="meta-value">
-                  {{ cocktail.strIBA }}
-                </span>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- TAG -->
-          <div
-            class="tags"
-            *ngIf="tags.length"
-          >
 
             <span
-              class="tag"
-              *ngFor="let tag of tags"
-            >
-              {{ tag }}
+              *ngIf="ingredient.noImage"
+              class="ingredient-dot"
+            ></span>
+
+          </span>
+
+          <span class="ingredient-main">
+
+            <span class="ingredient-name">
+              {{ ingredient.name }}
             </span>
 
-          </div>
+            <span class="ingredient-sub">
 
-        </div>
-
-      </section>
-
-
-      <!-- ===================================================
-           CONTENUTO
-           =================================================== -->
-      <section class="detail-content">
-
-
-        <!-- INGREDIENTI -->
-        <div class="detail-section ingredients-section">
-
-          <div class="section-heading">
-
-            <span class="section-number">
-              01
-            </span>
-
-            <div>
-              <h2>
-                Ingredienti
-              </h2>
-
-              <p>
-                Tutto ciò che serve per preparare il cocktail.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="ingredients-list">
-
-            <div
-              class="ingredient-row"
-              *ngFor="let ingredient of ingredients"
-            >
-
-              <span class="ingredient-name">
-                {{ ingredient.name }}
+              <span class="ingredient-kind">
+                {{ ingredient.type }}
               </span>
 
-
-              <span class="ingredient-line"></span>
-
-
-              <span class="ingredient-measure">
-                {{ ingredient.measure || 'q.b.' }}
+              <span class="ingredient-abv" *ngIf="ingredient.abv">
+                <span class="visually-hidden">Gradazione </span>{{ ingredient.abv }}% ABV
               </span>
 
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- PREPARAZIONE -->
-        <div class="detail-section preparation-section">
-
-          <div class="section-heading">
-
-            <span class="section-number">
-              02
             </span>
 
-            <div>
-              <h2>
-                Preparazione
-              </h2>
+          </span>
 
-              <p>
-                Segui i passaggi per preparare il drink.
-              </p>
-            </div>
+          <span class="ingredient-measure">
+            {{ ingredient.measure || 'q.b.' }}
+          </span>
 
-          </div>
+        </li>
+
+      </ul>
 
 
-          <div class="instructions">
+      <p class="card-note">
+        Gli strati del bicchiere seguono le misure della ricetta, in proporzione; dove l'API non indica un
+        volume (splash, dash...) compare un filo sottile. Dati e foto: TheCocktailDB<ng-container *ngIf="cocktail.strImageAttribution"> · foto di {{ cocktail.strImageAttribution }}</ng-container>.
+      </p>
 
-            <p>
-              {{ instructions }}
-            </p>
+    </aside>
 
-          </div>
-
-        </div>
-
-      </section>
-
-    </div>
-
-  </ng-container>
+  </div>
 
 </div>

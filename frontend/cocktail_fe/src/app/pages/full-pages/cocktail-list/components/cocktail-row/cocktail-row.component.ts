@@ -9,6 +9,7 @@ interface Cocktail{
 export interface CocktailOpenEvent {
   cocktail: Cocktail
   imageRect: DOMRect
+  imageElement: HTMLElement
 }
 
 @Component({
@@ -19,6 +20,7 @@ export interface CocktailOpenEvent {
 export class CocktailRowComponent {
 
   @Input() cocktail!:Cocktail
+  @Input() index: number = 0
   @Input() favorite: boolean = false
 
   @Output() favoriteChange = new EventEmitter<string>()
@@ -34,7 +36,7 @@ export class CocktailRowComponent {
   openCocktail(imageElement: HTMLElement): void {
     const imageRect = imageElement.getBoundingClientRect()
 
-    this.open.emit({ cocktail:this.cocktail, imageRect })
+    this.open.emit({ cocktail:this.cocktail, imageRect, imageElement })
   }
 
   openFromButton(event: MouseEvent, imageElement:HTMLElement){

@@ -1,2 +1,126 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+/* =========================================================
+   TOKEN
+   Direzione "Teatro del bancone": carbone prugna e carta rosata,
+   rosso Campari come accento, scorza d'arancia per i dettagli.
+   ========================================================= */
+
+:root {
+  --ink: #1c1618;
+  --ink-2: #261e21;
+  --ink-3: #3a2f33;
+
+  --bone: #ede6e3;
+  --bone-2: #ddd3cf;
+
+  --campari: #ee5b4a;
+  --campari-deep: #ae2c1c;
+  --peel: #f0a04b;
+
+  --mute-dark: #a99c9f;
+  --mute-paper: #6b5c60;
+  --line-strong: #7e7276;
+
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  --font-text: 'Albert Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --ease-move: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--ink);
+}
+
+body {
+  margin: 0;
+
+  background: var(--ink);
+  color: var(--bone);
+
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--campari);
+  color: var(--ink);
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+
+/* focus sempre visibile: anello Campari staccato dal bordo */
+:focus-visible {
+  outline: 2px solid var(--campari);
+  outline-offset: 3px;
+}
+
+.on-paper :focus-visible {
+  outline-color: var(--campari-deep);
+}
+
+
+.visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  margin: -1px;
+  padding: 0;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+/* chi chiede meno movimento non ne riceve: vale per tutta l'app */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+}
+
+
+/* il catalogo compare quando si attraversa la porta d'ingresso (vedi intro-loader) */
+.catalog-page {
+  transition: opacity 0.6s ease;
+}
+
+html.intro-open .catalog-page {
+  opacity: 0;
+}

@@ -1,326 +1,115 @@
 :host {
   display: block;
-  width: 100%;
 }
-
-
-/* =========================
-   FOOTER PAGINAZIONE
-========================= */
 
 .paginator-footer {
-  width: 100%;
+  padding: 12px 16px;
 
-  margin: 0;
+  border: 1px solid var(--ink-3);
+  border-radius: 16px;
 
-  padding: 18px 24px 20px;
-
-  box-sizing: border-box;
-
-  background: #fafbfd;
-
-  border-top: 1px solid #e3e8ee;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  background: rgba(28, 22, 24, 0.88);
 }
-
-
-/* =========================
-   CONTENITORE
-========================= */
 
 .paginator-container {
   display: flex;
 
-  width: 100%;
-
-  min-height: 38px;
-
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 
-  gap: 24px;
+  gap: 16px 24px;
 }
 
 
-/* =========================
-   RANGE
-========================= */
-
+/* intervallo mostrato: numeri in mono, larghezza stabile */
 .range-info {
-  flex-shrink: 0;
+  color: var(--bone);
 
-  color: #6b7280;
-
+  font-family: var(--font-mono);
   font-size: 13px;
-  font-weight: 500;
-
-  line-height: 1;
 
   font-variant-numeric: tabular-nums;
 }
 
-
 .range-of {
-  margin: 0 3px;
-
-  color: #9ca3af;
+  color: var(--mute-dark);
 }
 
-
-/* =========================
-   CONTROLLI PAGINA
-========================= */
 
 .pager {
   display: flex;
 
   align-items: center;
-  justify-content: flex-end;
 
-  gap: 5px;
+  gap: 8px;
 }
 
-
-/* =========================
-   PULSANTI
-========================= */
-
 .page-btn {
-  display: inline-flex;
+  min-width: 44px;
+  height: 44px;
 
-  width: 36px;
-  height: 36px;
+  padding: 0 12px;
 
-  min-width: 36px;
-
-  padding: 0;
-
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid transparent;
-  border-radius: 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
 
   background: transparent;
 
-  color: #334155;
+  color: var(--bone);
 
+  font-family: var(--font-mono);
   font-size: 13px;
-  font-weight: 600;
-
-  line-height: 1;
 
   font-variant-numeric: tabular-nums;
 
   cursor: pointer;
 
   transition:
-    background-color 0.18s ease,
-    color 0.18s ease,
-    border-color 0.18s ease,
-    transform 0.18s ease;
+    background-color 0.16s ease,
+    color 0.16s ease;
 }
-
 
 .page-btn:hover:not(:disabled):not(.active) {
-  background: #edf2f6;
+  background: var(--bone);
 
-  color: #17395c;
+  color: var(--ink);
 }
 
+/* pagina corrente: pieno + sottolineatura, non solo colore */
+.page-btn.active {
+  border-color: var(--campari);
 
-.page-btn:active:not(:disabled) {
-  transform: scale(0.96);
+  background: var(--campari);
+
+  color: var(--ink);
+
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
+.page-btn:disabled {
+  border-color: var(--ink-3);
 
-/* =========================
-   PAGINA ATTIVA
-========================= */
-
-.number-btn.active {
-  background: #17395c;
-
-  border-color: #17395c;
-
-  color: #ffffff;
-
-  box-shadow:
-    0 4px 10px rgba(23, 57, 92, 0.18);
-}
-
-
-.number-btn.active:hover {
-  background: #244b72;
-
-  border-color: #244b72;
-
-  color: #ffffff;
-}
-
-
-/* =========================
-   FRECCE
-========================= */
-
-.icon-btn {
-  border: 1px solid #dce3ea;
-
-  background: #ffffff;
-
-  color: #17395c;
-
-  font-size: 12px;
-}
-
-
-.icon-btn:hover:not(:disabled) {
-  background: #17395c;
-
-  border-color: #17395c;
-
-  color: #ffffff;
-}
-
-
-.icon-btn:disabled {
-  background: transparent;
-
-  border-color: transparent;
-
-  color: #c4cbd3;
+  color: var(--mute-dark);
 
   cursor: not-allowed;
 }
 
-
-/* =========================
-   PUNTINI
-========================= */
-
 .ellipsis {
-  display: flex;
+  min-width: 24px;
 
-  width: 28px;
-  height: 36px;
+  color: var(--mute-dark);
 
-  align-items: center;
-  justify-content: center;
-
-  color: #9ca3af;
-
-  font-size: 13px;
-
-  user-select: none;
+  text-align: center;
 }
 
-
-/* =========================
-   ACCESSIBILITÀ
-========================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .page-btn {
-    transition: none;
-  }
-
-}
-
-
-/* =========================
-   TABLET
-========================= */
-
-@media (max-width: 700px) {
-
-  .paginator-footer {
-    padding: 16px 18px 18px;
-  }
-
-
-  .paginator-container {
-    gap: 16px;
-  }
-
-
-  .page-btn {
-    width: 34px;
-    height: 34px;
-
-    min-width: 34px;
-  }
-
-
-  .ellipsis {
-    height: 34px;
-  }
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 520px) {
 
-  .paginator-footer {
-    padding: 16px;
-  }
-
-
-  .paginator-container {
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-  }
-
-
-  .range-info {
-    order: 2;
-
-    width: 100%;
-
-    text-align: center;
-  }
-
-
-  .pager {
-    order: 1;
-
-    width: 100%;
-
-    justify-content: center;
-  }
-
-
-  .page-btn {
-    width: 32px;
-    height: 32px;
-
-    min-width: 32px;
-
-    border-radius: 8px;
-
-    font-size: 12px;
-  }
-
-
+  .number-btn:not(.active),
   .ellipsis {
-    width: 22px;
-    height: 32px;
+    display: none;
   }
 
 }

@@ -26,4 +26,8 @@ export class FullLayaoutComponent implements OnInit {
     this.currentUser = this.authService.getUserFromLocalStorage()
   }
 
+  get userInitial(): string {
+    return (this.currentUser?.username || 'O').charAt(0).toUpperCase()
+  }
+
 }

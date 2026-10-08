@@ -16,9 +16,6 @@
 
   inset: 0;
 
-  width: 100vw;
-  height: 100vh;
-
   overflow: hidden;
 
   z-index: 999999;
@@ -28,7 +25,8 @@
 
 
 /* =========================================================
-   BACKDROP
+   VELO
+   Quasi opaco a metà gesto: nasconde il cambio di pagina.
    ========================================================= */
 
 .transition-backdrop {
@@ -36,75 +34,62 @@
 
   inset: 0;
 
-  width: 100%;
-  height: 100%;
-
-  background:
-    rgba(
-      8,
-      18,
-      30,
-      0.48
-    );
+  background: var(--ink);
 
   opacity: 0;
 }
 
 
 /* =========================================================
-   IMMAGINE ANIMATA
+   BICCHIERE
+   Posizione, dimensione e scala sono impostate da GSAP
+   (solo transform): left/top restano fissi a zero.
    ========================================================= */
 
-.transition-image {
+.transition-glass {
   position: fixed;
 
-  display: block;
+  left: 0;
+  top: 0;
 
-  margin: 0;
+  transform-origin: 50% 50%;
 
-  padding: 0;
+  /* resta nascosto finché GSAP non lo ha messo sopra la miniatura */
+  visibility: hidden;
 
-  object-fit: cover;
-
-  transform-origin: center center;
-
-  will-change:
-    left,
-    top,
-    width,
-    height,
-    transform,
-    filter,
-    opacity,
-    border-radius;
-
-  box-shadow:
-    0 20px 60px
-    rgba(
-      0,
-      0,
-      0,
-      0.25
-    );
-
-  user-select: none;
+  will-change: transform;
 
   pointer-events: none;
 }
 
 
 /* =========================================================
-   ACCESSIBILITÀ
+   IMMAGINE
+   Il raggio è in percentuale: la miniatura (14px su 64px)
+   e la foto grande hanno la stessa forma; all'arrivo scende a 0.
    ========================================================= */
 
-@media (
-  prefers-reduced-motion:
-  reduce
-) {
+.transition-image {
+  position: absolute;
 
-  .transition-image,
-  .transition-backdrop {
-    transition: none;
-  }
+  inset: 0;
 
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border-radius: 22%;
+
+  object-fit: cover;
+
+  transform-origin: 50% 50%;
+
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.35);
+
+  user-select: none;
 }

@@ -1,69 +1,37 @@
+<app-back-bar></app-back-bar>
+
 <div class="catalog-page">
 
-  <div class="catalog-wrapper">
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <header class="hero">
 
-    <!-- =====================================================
-         HEADER + FILTRI
-         ===================================================== -->
-    <div class="page-topbar">
+    <p class="hero-kicker">
+      Catalogo
+      <span *ngIf="filteredCocktails.length">
+        / {{ filteredCocktails.length }} drink
+      </span>
+    </p>
 
-      <div class="catalog-header">
-        <h1>Esplora i cocktail</h1>
+    <h1 class="hero-title">
+      <span class="line"><span class="line-inner">Esplora</span></span>
+      <span class="line"><span class="line-inner">i cocktail</span></span>
+    </h1>
 
-        <p>
-          Scegli una categoria e consulta l'elenco dei drink disponibili.
-        </p>
-      </div>
+    <p class="hero-lead">
+      Scegli una categoria e consulta l'elenco dei drink disponibili.
+    </p>
 
-
-      <!-- FILTRI -->
-      <div class="catalog-filters">
-
-        <div class="filter-group">
-          <label for="sort">Ordina per</label>
-
-          <select
-            id="sort"
-            [(ngModel)]="sortBy"
-            (change)="applyFilters()"
-          >
-            <option value="name-asc">
-              Nome A-Z
-            </option>
-
-            <option value="name-desc">
-              Nome Z-A
-            </option>
-          </select>
-        </div>
+  </header>
 
 
-        <label class="favorite-filter">
+  <!-- =====================================================
+       CATEGORIE
+       Binario orizzontale: scorre con trackpad, rotella (shift) o tab.
+       ===================================================== -->
+  <nav class="category-rail" aria-label="Categorie">
 
-          <input
-            type="checkbox"
-            [(ngModel)]="onlyFavorites"
-            (change)="applyFilters()"
-          />
-
-          <span class="favorite-filter-icon">
-            <i class="fa-regular fa-star"></i>
-          </span>
-
-          <span>
-            Solo preferiti
-          </span>
-
-        </label>
-
-      </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         CATEGORIE
-         ===================================================== -->
     <div class="category-tabs">
 
       <button
@@ -71,6 +39,7 @@
         type="button"
         class="category-tab"
         [class.active]="selectedCategory === category.strCategory"
+        [attr.aria-pressed]="selectedCategory === category.strCategory"
         (click)="selectCategory(category.strCategory)"
       >
         {{ category.strCategory }}
@@ -78,112 +47,146 @@
 
     </div>
 
-
-    <!-- =====================================================
-         CATALOGO
-         ===================================================== -->
-    <div class="catalog-box">
-
-      <!-- HEADER LISTA -->
-      <div class="catalog-title-row">
-
-        <h2>
-          {{ selectedCategory || 'Cocktail' }}
-        </h2>
+  </nav>
 
 
-        <!-- RICERCA -->
-        <div class="catalog-search">
+  <!-- =====================================================
+       STRUMENTI
+       ===================================================== -->
+  <div class="catalog-tools">
 
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <div class="catalog-search">
 
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            (keyup.enter)="applyFilters()"
-            placeholder="Cerca nella categoria..."
-          />
+      <label class="visually-hidden" for="search">
+        Cerca nella categoria
+      </label>
 
-          <button
-            type="button"
-            class="search-button"
-            (click)="applyFilters()"
-          >
-            Cerca
-          </button>
+      <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
 
-        </div>
+      <input
+        id="search"
+        type="text"
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="applyFilters()"
+        placeholder="Cerca nella categoria..."
+        autocomplete="off"
+      />
 
-
-        <span
-          class="results-count"
-          *ngIf="filteredCocktails.length"
-        >
-          {{ filteredCocktails.length }} drink
-        </span>
-
-      </div>
-
-
-      <!-- =====================================================
-           LISTA COCKTAIL
-           ===================================================== -->
-      <div
-        class="cocktail-list"
-        *ngIf="filteredCocktails.length; else emptyState"
+      <button
+        type="button"
+        class="search-button"
+        (click)="applyFilters()"
       >
-
-        <app-cocktail-row
-          *ngFor="let cocktail of paginatedCocktails"
-          [cocktail]="cocktail"
-          [favorite]="isFavorite(cocktail.idDrink)"
-          (mouseenter)="preloadCocktailImage(cocktail)"
-          (favoriteChange)="toggleFavorite($event)"
-          (open)="openCocktailDetail($event)"
-        >
-        </app-cocktail-row>
-
-
-        <app-paginator
-          [currentPage]="currentPage"
-          [totalPages]="totalPages"
-          [totalItems]="filteredCocktails.length"
-          [pageSize]="pageSize"
-          (pageChange)="onPageChange($event)"
-        >
-        </app-paginator>
-
-      </div>
-
-
-      <!-- =====================================================
-           EMPTY STATE
-           ===================================================== -->
-      <ng-template #emptyState>
-
-        <div class="empty-state">
-
-          <i class="fa-solid fa-martini-glass-citrus empty-icon"></i>
-
-          <h3>
-            Nessun cocktail da mostrare
-          </h3>
-
-          <p *ngIf="!searchTerm">
-            Seleziona una categoria per visualizzare l’elenco dei drink.
-          </p>
-
-          <p *ngIf="searchTerm">
-            Nessun cocktail corrisponde a
-            <strong>"{{ searchTerm }}"</strong>.
-          </p>
-
-        </div>
-
-      </ng-template>
+        Cerca
+      </button>
 
     </div>
 
+
+    <div class="filter-group">
+
+      <label for="sort">Ordina</label>
+
+      <select
+        id="sort"
+        [(ngModel)]="sortBy"
+        (change)="applyFilters()"
+      >
+        <option value="name-asc">
+          Nome A-Z
+        </option>
+
+        <option value="name-desc">
+          Nome Z-A
+        </option>
+      </select>
+
+    </div>
+
+
+    <label class="favorite-filter">
+
+      <input
+        type="checkbox"
+        [(ngModel)]="onlyFavorites"
+        (change)="applyFilters()"
+      />
+
+      <span class="favorite-filter-icon" aria-hidden="true">
+        <i class="fa-regular fa-star"></i>
+      </span>
+
+      <span>
+        Solo preferiti
+      </span>
+
+    </label>
+
   </div>
+
+
+  <!-- =====================================================
+       ELENCO
+       ===================================================== -->
+  <section class="catalog-box" aria-labelledby="catalog-title">
+
+    <h2 id="catalog-title" class="catalog-title">
+      {{ selectedCategory || 'Cocktail' }}
+    </h2>
+
+
+    <div
+      class="cocktail-list"
+      *ngIf="filteredCocktails.length; else emptyState"
+    >
+
+      <app-cocktail-row
+        *ngFor="let cocktail of paginatedCocktails; let i = index"
+        [cocktail]="cocktail"
+        [index]="(currentPage - 1) * pageSize + i + 1"
+        [favorite]="isFavorite(cocktail.idDrink)"
+        (mouseenter)="preloadCocktailImage(cocktail)"
+        (favoriteChange)="toggleFavorite($event)"
+        (open)="openCocktailDetail($event)"
+      >
+      </app-cocktail-row>
+
+
+      <app-paginator
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        [totalItems]="filteredCocktails.length"
+        [pageSize]="pageSize"
+        (pageChange)="onPageChange($event)"
+      >
+      </app-paginator>
+
+    </div>
+
+
+    <ng-template #emptyState>
+
+      <div class="empty-state">
+
+        <i class="fa-solid fa-martini-glass-citrus empty-icon" aria-hidden="true"></i>
+
+        <h3>
+          Nessun cocktail da mostrare
+        </h3>
+
+        <p *ngIf="!searchTerm">
+          Seleziona una categoria per visualizzare l’elenco dei drink.
+        </p>
+
+        <p *ngIf="searchTerm">
+          Nessun cocktail corrisponde a
+          <strong>"{{ searchTerm }}"</strong>.
+        </p>
+
+      </div>
+
+    </ng-template>
+
+  </section>
 
 </div>

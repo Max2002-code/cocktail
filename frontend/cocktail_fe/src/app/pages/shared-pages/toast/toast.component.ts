@@ -13,6 +13,15 @@ export class ToastComponent implements OnInit {
 
   private timeoutRef: any;
 
+  // il tipo è dichiarato a parole, non solo dal colore
+  get typeLabel(): string {
+    switch (this.type) {
+      case 'error': return 'Errore'
+      case 'warning': return 'Attenzione'
+      default: return 'Fatto'
+    }
+  }
+
   constructor(private toastService: ToastService) {}
 
   ngOnInit(): void {

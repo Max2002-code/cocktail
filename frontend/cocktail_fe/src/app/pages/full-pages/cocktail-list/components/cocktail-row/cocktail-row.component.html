@@ -1,4 +1,9 @@
-<div class="cocktail-row">
+<div class="cocktail-row" (click)="openCocktail(cocktailImage)">
+
+  <span class="row-index" aria-hidden="true">
+    {{ index | number:'2.0-0' }}
+  </span>
+
 
   <div #cocktailImage class="cocktail-image">
     <img [src]="getSmallThumbail(cocktail.strDrinkThumb)" [alt]="cocktail.strDrink" >
@@ -16,6 +21,7 @@
       type="button"
       class="icon-btn favorite-btn"
       [class.active]="favorite"
+      [attr.aria-pressed]="favorite"
       (click)="toggleFavorite($event)"
       aria-label="Preferito"
     >
@@ -27,9 +33,9 @@
       type="button"
       class="icon-btn open-btn"
       (click)="openFromButton($event, cocktailImage)"
-      aria-label="Apri cocktail"
+      [attr.aria-label]="'Apri ' + cocktail.strDrink"
     >
-      <i class="fa-solid fa-chevron-right"></i>
+      <i class="fa-solid fa-arrow-right"></i>
     </button>
 
   </div>

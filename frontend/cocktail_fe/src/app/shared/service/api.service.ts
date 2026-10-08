@@ -30,6 +30,13 @@ export class ApiService {
     return this.httpClient.get(url)
   }
 
+  // tipo, descrizione e gradazione di un ingrediente (chiamata pubblica: niente token)
+  getIngredientByName(name:string){
+    let url = this.cocktail_Url + `json/v1/1/search.php?i=${encodeURIComponent(name)}`
+
+    return this.httpClient.getExternal(url)
+  }
+
   getCocktailById(id:string){
     let url = this.cocktail_Url + `/json/v1/1/lookup.php?i=${id}`
 

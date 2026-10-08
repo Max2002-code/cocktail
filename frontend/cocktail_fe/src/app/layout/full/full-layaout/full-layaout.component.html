@@ -1,16 +1,24 @@
-<div class="header">
-    <div class="icon">
-        <p class="user_type">Cocktail Home Page</p>
+<header class="header">
+
+  <a class="brand" routerLink="/cocktails" aria-label="Cocktail, torna al catalogo">
+    Cocktail
+  </a>
+
+  <div class="header-meta">
+
+    <div class="user-logout-container" #dropdownContainer>
+      <span class="user">
+        <span class="user-initial" aria-hidden="true">{{ userInitial }}</span>
+        {{ currentUser?.username || 'Ospite' }}
+      </span>
     </div>
-    <div class="user-logout-container" #dropdownContainer >
-      <div class="user" (click)="action = !action" >
-        <img src="../../../../assets/icons/user.png" alt="">
-        - {{ currentUser?.username }}
-      </div>
-    </div>
-</div>
-<div class="page-container">
+
+  </div>
+
+</header>
+
+<main class="page-container">
   <div class="content-wrap">
     <router-outlet></router-outlet>
   </div>
-</div>
+</main>

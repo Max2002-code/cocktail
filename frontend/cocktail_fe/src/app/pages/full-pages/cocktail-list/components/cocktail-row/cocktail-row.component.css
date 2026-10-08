@@ -1,18 +1,31 @@
 :host {
   display: block;
   width: 100%;
+
+  /* la scala e l'opacità sono impostate dallo scroll della lista (solo transform e opacity) */
+  transform-origin: left center;
+
+  will-change: transform, opacity;
 }
 
 
-/* =========================
-   RIGA COCKTAIL
-========================= */
+/* =========================================================
+   RIGA
+   Al passaggio una lastra di carta sale dal basso e la riga si
+   inverte (transform + colore, nient'altro).
+   ========================================================= */
 
 .cocktail-row {
+  position: relative;
+
+  isolation: isolate;
+  overflow: hidden;
+
   display: grid;
 
   grid-template-columns:
-    72px
+    48px
+    64px
     minmax(0, 1fr)
     auto;
 
@@ -20,30 +33,80 @@
 
   gap: 18px;
 
-  min-height: 92px;
+  min-height: 84px;
 
-  padding: 10px 26px;
+  margin-bottom: 8px;
+  padding: 10px clamp(8px, 1.2vw, 16px);
 
-  border-bottom: 1px solid #e9edf1;
+  border: 1px solid var(--ink-3);
+  border-radius: 16px;
 
-  background: #ffffff;
+  /* velata: lascia intravedere le bottiglie dietro */
+  background: rgba(28, 22, 24, 0.88);
 
-  transition:
-    background-color 0.18s ease,
-    padding-left 0.18s ease;
+  color: var(--bone);
+
+  cursor: pointer;
+
+  transition: color 0.18s ease;
+}
+
+.cocktail-row::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background: var(--bone);
+
+  transform: scaleY(0);
+  transform-origin: bottom;
+
+  transition: transform 0.24s var(--ease-move);
+}
+
+.cocktail-row:hover,
+.cocktail-row:focus-within {
+  color: var(--ink);
+}
+
+.cocktail-row:hover::before,
+.cocktail-row:focus-within::before {
+  transform: scaleY(1);
 }
 
 
-.cocktail-row:hover {
-  padding-left: 32px;
+/* =========================================================
+   NUMERO
+   ========================================================= */
 
-  background: #f5f8fb;
+.row-index {
+  padding-left: 4px;
+
+  color: var(--mute-dark);
+
+  font-family: var(--font-mono);
+  font-size: 13px;
+
+  font-variant-numeric: tabular-nums;
+
+  transition: color 0.18s ease;
+}
+
+.cocktail-row:hover .row-index,
+.cocktail-row:focus-within .row-index {
+  color: var(--mute-paper);
 }
 
 
-/* =========================
-   FOTO COCKTAIL
-========================= */
+/* =========================================================
+   FOTO
+   Solo scala: la miniatura resta un quadrato e il punto di
+   partenza della transizione coincide con quello che si vede.
+   ========================================================= */
 
 .cocktail-image {
   width: 64px;
@@ -51,14 +114,16 @@
 
   overflow: hidden;
 
-  border-radius: 14px;
+  border-radius: 22%;
 
-  background: #edf2f6;
+  background: var(--ink-2);
 
-  box-shadow:
-    0 4px 12px rgba(15, 39, 66, 0.08);
+  transition: transform 0.24s var(--ease-move);
 }
 
+.cocktail-row:hover .cocktail-image {
+  transform: scale(1.08);
+}
 
 .cocktail-image img {
   display: block;
@@ -67,190 +132,129 @@
   height: 100%;
 
   object-fit: cover;
-
-  transition:
-    transform 0.25s ease;
 }
 
 
-.cocktail-row:hover .cocktail-image img {
-  transform: scale(1.05);
-}
-
-
-/* =========================
-   NOME COCKTAIL
-========================= */
+/* =========================================================
+   NOME
+   ========================================================= */
 
 .cocktail-name {
   overflow: hidden;
 
-  color: #1d1d1f;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 800;
 
-  font-size: 19px;
-  font-weight: 550;
-
-  letter-spacing: -0.2px;
+  line-height: 1;
 
   text-overflow: ellipsis;
+  text-transform: uppercase;
 
   white-space: nowrap;
+
+  transition: transform 0.24s var(--ease-move);
+}
+
+.cocktail-row:hover .cocktail-name {
+  transform: translateX(12px);
 }
 
 
-/* =========================
+/* =========================================================
    AZIONI
-========================= */
+   ========================================================= */
 
 .cocktail-actions {
   display: flex;
 
   align-items: center;
 
-  gap: 8px;
+  gap: 10px;
 }
-
 
 .icon-btn {
   display: flex;
 
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 
   padding: 0;
 
   align-items: center;
   justify-content: center;
 
-  border: none;
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-size: 16px;
 
   cursor: pointer;
 
   transition:
-    transform 0.18s ease,
-    background-color 0.18s ease,
-    color 0.18s ease;
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease;
 }
-
-
-.icon-btn:hover {
-  transform: scale(1.07);
-}
-
-
-/* =========================
-   PREFERITO
-========================= */
-
-.favorite-btn {
-  background: #edf2f6;
-
-  color: #17395c;
-
-  font-size: 18px;
-}
-
-
-.favorite-btn:hover {
-  background: #dde6ef;
-}
-
 
 .favorite-btn.active {
-  background: #17395c;
+  border-color: var(--peel);
 
-  color: #ffffff;
+  background: var(--peel);
+
+  color: var(--ink);
 }
-
-
-/* =========================
-   DETTAGLIO
-========================= */
 
 .open-btn {
-  background: #17395c;
+  border-color: var(--campari);
 
-  color: #ffffff;
+  background: var(--campari);
 
-  font-size: 16px;
+  color: var(--ink);
+}
+
+/* sulla lastra di carta i pulsanti passano a inchiostro: contrasto pieno */
+.cocktail-row:hover .icon-btn:not(.active),
+.cocktail-row:focus-within .icon-btn:not(.active) {
+  border-color: var(--ink);
+}
+
+.cocktail-row:hover .open-btn,
+.cocktail-row:focus-within .open-btn {
+  background: var(--ink);
+
+  color: var(--bone);
 }
 
 
-.open-btn:hover {
-  background: #244b72;
-}
+/* =========================================================
+   SCHERMI STRETTI
+   ========================================================= */
 
-
-/* =========================
-   TABLET
-========================= */
-
-@media (max-width: 650px) {
+@media (max-width: 700px) {
 
   .cocktail-row {
     grid-template-columns:
-      58px
+      64px
       minmax(0, 1fr)
       auto;
 
-    gap: 12px;
+    gap: 14px;
 
-    min-height: 78px;
-
-    padding: 8px 14px;
+    min-height: 80px;
   }
 
-
-  .cocktail-row:hover {
-    padding-left: 18px;
-  }
-
-
-  .cocktail-image {
-    width: 52px;
-    height: 52px;
-
-    border-radius: 12px;
-  }
-
-
-  .cocktail-name {
-    font-size: 16px;
-  }
-
-
-  .icon-btn {
-    width: 36px;
-    height: 36px;
+  .row-index {
+    display: none;
   }
 
 }
-
-
-/* =========================
-   MOBILE PICCOLO
-========================= */
 
 @media (max-width: 450px) {
-
-  .cocktail-row {
-    grid-template-columns:
-      52px
-      minmax(0, 1fr)
-      auto;
-
-    gap: 10px;
-
-    padding: 8px 10px;
-  }
-
-
-  .cocktail-image {
-    width: 48px;
-    height: 48px;
-  }
-
 
   .favorite-btn {
     display: none;

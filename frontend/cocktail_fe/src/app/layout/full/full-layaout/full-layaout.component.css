@@ -1,118 +1,104 @@
-/* HEADER GENERALE */
+:host {
+  display: block;
+
+  min-height: 100vh;
+
+  background: var(--ink);
+  color: var(--bone);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .header {
+  position: sticky;
+
+  top: 0;
+
+  z-index: 20;
+
   display: flex;
+
+  height: 64px;
+
+  padding: 0 clamp(16px, 3vw, 40px);
+
   align-items: center;
   justify-content: space-between;
-  position: relative;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid #ddd;
+
+  border-bottom: 1px solid var(--ink-3);
+
+  background: var(--ink);
 }
 
-/* MENU DI NAVIGAZIONE (SINISTRA) */
-.menu {
-  display: flex;
-  gap: 1rem;
-}
 
-.menu a {
-  display: inline-block;
-  background-color: #e6f7ff;
-  color: #000;
+.brand {
+  color: var(--bone);
+
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+
+  letter-spacing: 0.04em;
+  line-height: 1;
+
   text-decoration: none;
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border: 2px solid #005eb8;
-  border-radius: 0.5rem;
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  text-transform: uppercase;
 }
 
-.menu a:hover,
-.menu a.active,
-.menu a.focus {
-  background-color: #005eb8;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.brand:hover {
+  color: var(--campari);
 }
 
-/* NOME UTENTE CENTRATO */
-.icon {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
-.user_type {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-}
-
-/* UTENTE + LOGOUT (DESTRA) */
-.user-logout-container {
+.header-meta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.4rem;
-}
 
-/* ICONA + RUOLO UTENTE */
-.user {
-  display: flex;
   align-items: center;
-  gap: 0.4rem;
+
+  gap: clamp(14px, 3vw, 32px);
 }
 
-.user img {
-  width: 20px;
-  height: 20px;
+
+.user {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user-initial {
+  display: inline-flex;
+
+  width: 32px;
+  height: 32px;
+
+  align-items: center;
+  justify-content: center;
+
   border-radius: 50%;
+
+  background: var(--campari);
+  color: var(--ink);
+
+  font-size: 14px;
+  font-weight: 700;
 }
 
-/* BOTTONE LOGOUT */
- a {
-  display: inline-block;
-  background-color: #e0e0e0;
-  color: #000;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 0.5rem 1.2rem;
-  border: 2px solid #7d7d7d;
-  border-radius: 0.5rem;
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-}
 
-a:hover {
-  background-color: #bfbfbf;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* LAYOUT GENERALE PAGINA */
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 85vh;
+
+  min-height: calc(100vh - 64px);
 }
 
 .content-wrap {
   flex: 1;
-}
-
-/* TESTO GENERICO */
-p {
-  font-size: 15px;
-}
-
-.container_actions{
-  width: 100px;
-  background-color: #fff;
-  position: absolute;
-  border: 1px solid black;
-  border-radius: 10px;
-  top: 8vh;
-  right: 2vw;
-  padding: 15px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
 }

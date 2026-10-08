@@ -20,6 +20,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ApiService } from './shared/service/api.service';
 import { ToastComponent } from './pages/shared-pages/toast/toast.component';
 import { CocktailTransitionComponent } from './pages/shared-pages/cocktail-transition/cocktail-transition/cocktail-transition.component';
+import { IntroLoaderComponent } from './pages/shared-pages/intro-loader/intro-loader.component';
 
 export interface AppState {
   auth: any;
@@ -44,7 +45,8 @@ function appInitializer(authService: AuthService) {
     LogoutComponent,
     ErrorComponent,
     ToastComponent,
-    CocktailTransitionComponent
+    CocktailTransitionComponent,
+    IntroLoaderComponent
   ],
   imports: [
     BrowserModule,

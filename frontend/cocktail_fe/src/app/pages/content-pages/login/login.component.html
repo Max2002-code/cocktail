@@ -1,7 +1,9 @@
 <div class="login-container">
   <div class="login-box">
+
     <div class="image"><img src="../../../../assets/icons/logo.png" alt=""></div>
-    
+
+    <h1 class="login-title">Accedi</h1>
 
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
@@ -12,12 +14,15 @@
           id="username"
           formControlName="username"
           class="form-control"
+          autocomplete="username"
+          [attr.aria-invalid]="loginSubmit && lf['username'].invalid"
+          [attr.aria-describedby]="loginSubmit && lf['username'].invalid ? 'username-error' : null"
           [ngClass]="{
             'is-invalid': loginSubmit && lf['username'].invalid,
             'is-valid': loginSubmit && lf['username'].valid
           }"
         />
-        <div class="error-message" *ngIf="loginSubmit && lf['username'].invalid">
+        <div id="username-error" class="error-message" *ngIf="loginSubmit && lf['username'].invalid">
           Questo campo è obbligatorio.
         </div>
       </div>
@@ -29,17 +34,24 @@
           id="password"
           formControlName="password"
           class="form-control"
+          autocomplete="current-password"
+          [attr.aria-invalid]="loginSubmit && lf['password'].invalid"
+          [attr.aria-describedby]="loginSubmit && lf['password'].invalid ? 'password-error' : null"
           [ngClass]="{
             'is-invalid': loginSubmit && lf['password'].invalid,
             'is-valid': loginSubmit && lf['password'].valid
           }"
         />
-        <div class="error-message" *ngIf="loginSubmit && lf['password'].invalid">
+        <div id="password-error" class="error-message" *ngIf="loginSubmit && lf['password'].invalid">
           Questo campo è obbligatorio.
         </div>
       </div>
 
-      <button type="submit" class="login-button">Login</button>
+      <div class="error-message form-error" role="alert" *ngIf="loginFailed">
+        Credenziali non valide: controlla username e password.
+      </div>
+
+      <button type="submit" class="login-button">Accedi</button>
     </form>
   </div>
 </div>

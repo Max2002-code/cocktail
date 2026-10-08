@@ -1,8 +1,8 @@
-<p>cocktail-transition works!</p>
 <div
   *ngIf="transition"
   #overlay
   class="transition-overlay"
+  aria-hidden="true"
 >
 
   <div
@@ -12,11 +12,18 @@
   </div>
 
 
-  <img
-    #transitionImage
-    class="transition-image"
-    [src]="transition.imageUrl"
-    [alt]="transition.cocktail.strDrink"
+  <div
+    #glass
+    class="transition-glass"
   >
+
+    <img
+      #transitionImage
+      class="transition-image"
+      [src]="transition.imageUrl"
+      alt=""
+    >
+
+  </div>
 
 </div>

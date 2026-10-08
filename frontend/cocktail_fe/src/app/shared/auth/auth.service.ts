@@ -1,131 +1,98 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, map, Observable, of, Subscription, switchMap } from 'rxjs';
-import { environment } from 'src/environments/environment';
-// Import or define UserType
-import { UserModel } from 'src/app/models/user.model';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, finalize, map, of, tap, timeout } from 'rxjs';
 import { ApiService } from '../service/api.service';
-import { ReportServiceService } from '../service/report.service.service';
+import { AuthSessionService } from './auth-session.service';
+import { AuthUser } from '../../models/user.model';
 
-export type UserType = UserModel | undefined;
+export type UserType = AuthUser | undefined;
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthService implements OnDestroy{
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  readonly currentUser$ = this.session.user$.asObservable();
+  readonly isLoadingSubject = new BehaviorSubject(false);
+  readonly isLoading$ = this.isLoadingSubject.asObservable();
+  readonly sessionError$ = new BehaviorSubject('');
+  readonly loginOpen$ = new BehaviorSubject(false);
 
-  private unsubscribe: Subscription[]=[];
-  private authLocalStorageToken = `token-${environment.USER_KEY}`;
-  private userLocalStorageToken = `user-${environment.USER_KEY}`;
+  constructor(private api: ApiService, private session: AuthSessionService) { }
 
-  currentUser$: Observable<UserType>;
-  isLoading$: Observable<boolean>;
-  currentUserSubject: BehaviorSubject<UserType>;
-  isLoadingSubject: BehaviorSubject<boolean>;
-  
-
-  get currentUserValue(): UserType{
-    return this.currentUserSubject?.value;
+  get currentUserValue(): UserType {
+    return this.session.user$.value;
   }
 
-  set currentUserValue(user: UserType) {
-    this.currentUserSubject?.next(user);
+  get hasSavedSession(): boolean {
+    return !!this.session.token;
   }
 
-
-  constructor(private authHttpService:ReportServiceService, private router:Router) { 
-  this.isLoadingSubject = new BehaviorSubject<boolean>(false);
-    this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
-    this.currentUser$ = this.currentUserSubject.asObservable();
-    this.isLoading$ = this.isLoadingSubject.asObservable(); 
-  }
-
-  login(username:string, password:string): Observable<UserType> {
-    this.isLoadingSubject?.next(true)
-
-    return this.authHttpService.login(username, password).pipe(
-      map((auth: UserModel)=>{
-        const result = this.setAuthFromLocalStorage(auth);
-        return result;
-      }),
-      switchMap(() => {
-        const user = this.getUserByToken()
-        return user;
-      }),
-      catchError((err)=>{
-        console.error(err);
-        return of(undefined);
-      }),
-      finalize(()=> this.isLoadingSubject?.next(false))
-    )
-  }
-
-  logout(){
-    localStorage.removeItem(this.authLocalStorageToken);
-    localStorage.removeItem(this.userLocalStorageToken);
-    
-    this.router.navigate(['/cocktail_list'], {
-      queryParams: {  }
-    })
-  }
-
-  private setAuthFromLocalStorage(auth: UserModel): boolean {
-    if (auth && auth.key) {
-      localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
-      return true;
-    }
-    return false;
-  }
-
-  getUserByToken(): Observable<UserType> {
-    const auth = this.getAuthFromLocalStorage();
-    if (!auth || !auth.key) {
-      return of(undefined);
-    }
-
-    this.isLoadingSubject?.next(true);
-    return this.authHttpService.getUserByToken().pipe(
-      map((user: UserType) => {
-        if (user) {
-          this.currentUserSubject?.next(user);
-        } else {
-          this.logout();
-        }
-        return user;
-      }),
-      finalize(() => this.isLoadingSubject?.next(false))
+  login(username: string, password: string): Observable<AuthUser> {
+    this.isLoadingSubject.next(true);
+    this.sessionError$.next('');
+    return this.api.login(username, password).pipe(
+      timeout(10000),
+      tap(session => this.session.save(session)),
+      tap(() => this.closeLogin()),
+      map(session => session.user),
+      finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
-  public getAuthFromLocalStorage(): UserModel | undefined {
-    try {
-      const lsValue = localStorage.getItem(this.authLocalStorageToken);
-      if (!lsValue) {
-        return undefined;
-      }
-      return JSON.parse(lsValue);
-    } catch (error) {
-      console.error(error);
-      return undefined;
+  register(username: string, password: string): Observable<AuthUser> {
+    this.isLoadingSubject.next(true);
+    this.sessionError$.next('');
+    return this.api.register(username, password).pipe(
+      timeout(10000),
+      tap(session => this.session.save(session)),
+      tap(() => this.closeLogin()),
+      map(session => session.user),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  getUserByToken(): Observable<UserType> {
+    if (!this.session.token) {
+      return of(undefined);
+    }
+    const token = this.session.token;
+    this.isLoadingSubject.next(true);
+    this.sessionError$.next('');
+    // Il backend attuale non espone /auth/me. Questo GET protetto convalida il token senza scrivere dati.
+    return this.api.getFavorites().pipe(
+      timeout(10000),
+      map(() => token === this.session.token ? this.session.savedUser : undefined),
+      tap(user => this.session.user$.next(user)),
+      tap(user => {
+        if (user) {
+          this.closeLogin();
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.session.clear();
+          this.sessionError$.next('Sessione non valida. Accedi di nuovo.');
+        } else {
+          this.sessionError$.next('Non riesco a verificare la sessione. Controlla il backend e riprova.');
+        }
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  openLogin(): void {
+    if (!this.currentUserValue) {
+      this.loginOpen$.next(true);
     }
   }
 
-  public setUserFromLocalStorage(user: UserModel): boolean {
-    if (user){
-      localStorage.setItem(this.userLocalStorageToken, JSON.stringify(user));
-      return true;
-    }
-    return false
+  closeLogin(): void {
+    this.loginOpen$.next(false);
   }
 
-  public getUserFromLocalStorage(): UserModel | undefined {
-    const userStr = localStorage.getItem(this.userLocalStorageToken);
-    if (userStr)
-      return JSON.parse(userStr) as UserModel;
-    return undefined;
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  logout(): void {
+    this.closeLogin();
+    this.session.clear();
+    this.sessionError$.next('');
   }
 }
+

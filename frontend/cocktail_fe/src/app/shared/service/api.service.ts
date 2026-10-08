@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AppHttpClient } from './app-http-client.service';
+import { AuthSession } from '../../models/auth.model';
+import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ApiService {
+  readonly base_url = environment.apiUrl.replace(/\/$/, '') + '/api/';
+  readonly cocktail_Url = environment.cockatilUrl + '/api/json/v1/1/';
 
-  public base_url = environment.apiUrl+"/api/";
-  public cocktail_Url = environment.cockatilUrl + '/api/'
+  constructor(private httpClient: AppHttpClient) { }
 
-  constructor(private httpClient:AppHttpClient) { }
-
-  getCategory(){
-    let url = this.cocktail_Url + 'json/v1/1/list.php?c=list'
-
-    return this.httpClient.getExternal(url)
+  login(username: string, password: string): Observable<AuthSession> {
+    return this.httpClient.post<AuthSession>(this.base_url + 'auth/login', { username, password });
   }
 
-  getDrinksByCategory(category:string){
-    let url = this.cocktail_Url + `json/v1/1/filter.php?c=${category}`
-
-    return this.httpClient.getExternal(url)
+  register(username: string, password: string): Observable<AuthSession> {
+    return this.httpClient.post<AuthSession>(this.base_url + 'auth/register', { username, password });
   }
 
-  getCocktailByName(name:string){
-    let url = this.cocktail_Url + `/json/v1/1/search.php?s=${name}`
-
-    return this.httpClient.get(url)
+  getFavorites() {
+    return this.httpClient.get<unknown[]>(this.base_url + 'favorites/');
   }
 
-  getCocktailById(id:string){
-    let url = this.cocktail_Url + `/json/v1/1/lookup.php?i=${id}`
+  getCategory() {
+    return this.httpClient.getExternal(this.cocktail_Url + 'list.php?c=list');
+  }
 
-    return this.httpClient.get(url)
+  getDrinksByCategory(category: string) {
+    return this.httpClient.getExternal(this.cocktail_Url + 'filter.php?c=' + encodeURIComponent(category));
+  }
+
+  getCocktailByName(name: string) {
+    return this.httpClient.getExternal(this.cocktail_Url + 'search.php?s=' + encodeURIComponent(name));
+  }
+
+  getCocktailById(id: string) {
+    return this.httpClient.getExternal(this.cocktail_Url + 'lookup.php?i=' + encodeURIComponent(id));
   }
 }

@@ -1,14 +1,15 @@
-<div class="header">
-    <div class="icon">
-        <p class="user_type">Cocktail Home Page</p>
+<header class="header">
+  <a class="brand" routerLink="/cocktails">The Cocktail Collection<span>DISCOVER YOUR NEXT FAVOURITE</span></a>
+  <div class="user-logout-container" #userMenu>
+    <button #userButton class="user" type="button" (click)="onUserClick()" [attr.aria-label]="auth.currentUserValue ? 'Account di ' + auth.currentUserValue.username : 'Accedi'" [attr.aria-expanded]="auth.currentUserValue ? menuOpen : null" [attr.aria-controls]="auth.currentUserValue ? 'account-dropdown' : null">
+      <img src="assets/icons/user.png" alt="">
+      <span *ngIf="auth.currentUser$ | async as user">{{ user.username }}</span>
+    </button>
+    <div id="account-dropdown" class="account-dropdown" *ngIf="menuOpen && auth.currentUserValue">
+      <button type="button" (click)="logout()">Logout <span aria-hidden="true">↗</span></button>
     </div>
-    <div class="user-logout-container" #dropdownContainer >
-      <div class="user" (click)="action = !action" >
-        <img src="../../../../assets/icons/user.png" alt="">
-        - {{ currentUser?.username }}
-      </div>
-    </div>
-</div>
+  </div>
+</header>
 <div class="page-container">
   <div class="content-wrap">
     <router-outlet></router-outlet>

@@ -5,15 +5,10 @@ import { ApiService } from 'src/app/shared/service/api.service';
 import { ToastService } from 'src/app/shared/service/toast/toast.service';
 import { CocktailTransitionService } from 'src/app/shared/service/transition/cocktail-transition.service';
 import { CocktailOpenEvent } from './components/cocktail-row/cocktail-row.component';
+import { CocktailModel } from 'src/app/models/cocktail.model';
 
 interface Category{
   strCategory:string
-}
-
-interface Cocktail{
-  idDrink: string
-  strDrink: string
-  strDrinkThumb: string
 }
 
 @Component({
@@ -24,7 +19,7 @@ interface Cocktail{
 export class CocktailListComponent implements OnInit{
 
   categories: Category[] = []
-  cocktails:Cocktail[] = []
+  cocktails:CocktailModel[] = []
   selectedCategory:string | undefined
 
   currentPage:number = 1
@@ -33,7 +28,7 @@ export class CocktailListComponent implements OnInit{
   searchTerm:string = '';
   sortBy:'name-asc' | 'name-desc' = 'name-asc';
   onlyFavorites:boolean = false;
-  filteredCocktails: Cocktail[] = [];
+  filteredCocktails: CocktailModel[] = [];
 
   private imagePreloadCache = new Map<string, Promise<void>>()
 
@@ -43,7 +38,7 @@ export class CocktailListComponent implements OnInit{
     return Math.max(1, Math.ceil(this.cocktails.length / this.pageSize))
   }
 
-  get paginatedCocktails(): Cocktail[] {
+  get paginatedCocktails(): CocktailModel[] {
     const start = (this.currentPage - 1) * this.pageSize
 
     const end = start + this.pageSize
@@ -122,11 +117,11 @@ export class CocktailListComponent implements OnInit{
 
     switch(this.sortBy){
       case 'name-asc':
-        result.sort((a:Cocktail, b:Cocktail) => a.strDrink.localeCompare(b.strDrink))
+        result.sort((a:CocktailModel, b:CocktailModel) => a.strDrink.localeCompare(b.strDrink))
         break
 
       case 'name-desc':
-        result.sort((a:Cocktail, b:Cocktail) => b.strDrink.localeCompare(a.strDrink))
+        result.sort((a:CocktailModel, b:CocktailModel) => b.strDrink.localeCompare(a.strDrink))
         break
     }
 
@@ -191,7 +186,7 @@ export class CocktailListComponent implements OnInit{
     return promise
   }
 
-  preloadCocktailImage(cocktail:Cocktail): void {
+  preloadCocktailImage(cocktail:CocktailModel): void {
     if(!cocktail.strDrinkThumb) return
 
     const imageUrl = this.getTransitionImageUrl(cocktail.strDrinkThumb)

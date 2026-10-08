@@ -1,17 +1,18 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppHttpClient } from './shared/service/app-http-client.service';
 import { FullLayaoutComponent } from './layout/full/full-layaout/full-layaout.component';
 import { ContentLayoutComponent } from './layout/content/content-layout/content-layout.component';
 import { StoreModule } from '@ngrx/store';
 import { ApiInterceptionService } from './shared/service/api-interception.service';
-import { UserModel } from './models/user.model';
+import { AuthUser } from './models/user.model';
+import { LoginComponent } from './pages/content-pages/login/login.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { LogoutComponent } from './pages/content-pages/logout/logout.component';
@@ -24,21 +25,13 @@ import { CocktailTransitionComponent } from './pages/shared-pages/cocktail-trans
 export interface AppState {
   auth: any;
   token: string | null;
-  user: UserModel | null;
-}
-
-function appInitializer(authService: AuthService) {
-  return () => {
-    return new Promise((resolve) => {
-      //@ts-ignore
-      authService.getUserByToken().subscribe().add(resolve);
-    });
-  };
+  user: AuthUser | null;
 }
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     FullLayaoutComponent,
     ContentLayoutComponent,
     LogoutComponent,
@@ -51,6 +44,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot({}, {}),
     NgxMaskDirective,
@@ -58,7 +52,6 @@ function appInitializer(authService: AuthService) {
   ],
   providers: [AppHttpClient,
     {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptionService, multi:true}, 
-    {provide: APP_INITIALIZER, useFactory: appInitializer, multi:true, deps:[AuthService]},
     ApiService,
     AuthGuard,
     provideNgxMask()],

@@ -31,10 +31,13 @@ ruoter.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(SALT_ROUNDS)
         const passwordHash = await bcrypt.hash(password, salt)
 
+        const token = crypto.randomBytes(32).toString('hex')
+
         const user = {
             id: Date.now(),
             username:username,
-            passwordHash:passwordHash
+            passwordHash:passwordHash,
+            token:token
         }
 
         database.users.push(user)
@@ -42,8 +45,11 @@ ruoter.post('/register', async (req, res) => {
         await writeDatabase(database)
 
         return res.status(201).json({
-            id:user.id,
-            username:user.username
+            token:token,
+            user:{
+                id:user.id,
+                username:user.username
+            }
         })
     } catch (error) {
         console.error(error)

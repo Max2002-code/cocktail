@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { LoginComponent } from "./login/login.component";
 import { ContentPagesRoutingModule } from "./content-pages-routing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -12,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         ReactiveFormsModule
     ],
     declarations: [
-        LoginComponent,
+
     ]
 })
 export class ContentPagesModule { }

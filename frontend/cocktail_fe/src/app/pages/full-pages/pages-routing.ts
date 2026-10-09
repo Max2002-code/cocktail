@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path:'',
         children:[
-            { path:'', redirectTo: '', pathMatch:"full" },
+            { path:'', redirectTo: 'cocktails', pathMatch:"full" },
             { path: 'cocktails', component: CocktailListComponent },
             { path: 'cocktail/:id', component:CocktailDetailComponent }
         ]

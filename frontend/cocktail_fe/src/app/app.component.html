@@ -2,3 +2,8 @@
 <router-outlet></router-outlet>
 <app-cocktail-transition></app-cocktail-transition>
 <app-intro-loader></app-intro-loader>
+<div [attr.inert]="(auth.loginOpen$ | async) ? '' : null" [attr.aria-hidden]="(auth.loginOpen$ | async) ? 'true' : null">
+  <router-outlet></router-outlet>
+  <app-cocktail-transition></app-cocktail-transition>
+</div>
+<app-login *ngIf="auth.loginOpen$ | async"></app-login>

@@ -1,5 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { UserModel } from 'src/app/models/user.model';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
@@ -7,27 +6,44 @@ import { AuthService } from 'src/app/shared/auth/auth.service';
   templateUrl: './full-layaout.component.html',
   styleUrls: ['./full-layaout.component.css']
 })
-export class FullLayaoutComponent implements OnInit {
-  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef
+export class FullLayaoutComponent {
+  @ViewChild('userMenu') userMenu!: ElementRef<HTMLElement>;
+  @ViewChild('userButton') userButton!: ElementRef<HTMLButtonElement>;
+  menuOpen = false;
 
-  currentUser: UserModel | undefined
-  action:boolean = false
+  constructor(public auth: AuthService) { }
 
-  constructor(private authService:AuthService){}
-
-  @HostListener('document:click',['$event'])
-  onClickOutside(event:MouseEvent){
-    if (this.dropdownContainer && !this.dropdownContainer.nativeElement.contains(event.target)){
-      this.action = false
+  onUserClick(): void {
+    if (this.auth.currentUserValue) {
+      this.menuOpen = !this.menuOpen;
+      return;
     }
+    this.menuOpen = false;
+    this.auth.openLogin();
   }
 
-  ngOnInit():void {
-    this.currentUser = this.authService.getUserFromLocalStorage()
+  logout(): void {
+    this.menuOpen = false;
+    this.auth.logout();
+    this.userButton.nativeElement.focus();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onOutsideClick(event: MouseEvent): void {
+    if (!this.userMenu.nativeElement.contains(event.target as Node)) {
+      this.menuOpen = false;
+    }
   }
 
   get userInitial(): string {
     return (this.currentUser?.username || 'O').charAt(0).toUpperCase()
   }
 
+  @HostListener('document:keydown.escape')
+  closeMenu(): void {
+    if (this.menuOpen) {
+      this.menuOpen = false;
+      this.userButton.nativeElement.focus();
+    }
+  }
 }

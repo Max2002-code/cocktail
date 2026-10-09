@@ -1,7 +1,9 @@
-export class AuthModel{
-    key!: string 
+import { AuthUser } from './user.model';
 
-    setAuth(auth: AuthModel){
-        this.key = auth.key;
-    }
+// Risposta condivisa da POST /api/auth/login e POST /api/auth/register.
+export interface AuthModel {
+  token: string;
+  user: AuthUser;
 }
+
+export type AuthSession = AuthModel;

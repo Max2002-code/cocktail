@@ -1,13 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-interface Cocktail{
-  idDrink: string
-  strDrink: string
-  strDrinkThumb: string
-}
+import { CocktailModel } from 'src/app/models/cocktail.model';
 
 export interface CocktailOpenEvent {
-  cocktail: Cocktail
+  cocktail: CocktailModel
   imageRect: DOMRect
   imageElement: HTMLElement
 }

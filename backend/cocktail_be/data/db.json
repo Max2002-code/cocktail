@@ -11,9 +11,19 @@
       "username": "manila",
       "passwordHash": "$2b$10$pwMz2V5tI5giPfGZC4DWvuCF6qmvIy42S8Jb/.TxtSDJ/.RZGjYQu",
       "token": "3dda88109e14c5352e4be3aedd33e6e2401e0d939e9197b656da000f68a0cb98"
+    },
+    {
+      "id": 1791481242534,
+      "username": "admin",
+      "passwordHash": "$2b$10$sO8tNhFjcPowtOIi0.z.pOiJTgHbYLALzzHCW5IxRu4IQSd/PYW0C",
+      "token": "f1bce80342291dc04908a92f02ac670682f82669ce9774601cf0e6270bd96f16"
+    },
+    {
+      "id": 1791483631277,
+      "username": "paolo_1",
+      "passwordHash": "$2b$10$yY3yMP8TT4A1HuR9mQMDsuC1ERts2ZY3oa.rgDMqWR1w28fuM/XRa",
+      "token": "5dad607d6d2ef74752209ff3ae0ca77d07e07868a47947749546086b2f9baf35"
     }
   ],
-  "favorites": [
-    
-  ]
+  "favorites": []
 }

@@ -1,57 +1,47 @@
-<div class="login-container">
-  <div class="login-box">
-
-    <div class="image"><img src="../../../../assets/icons/logo.png" alt=""></div>
-
-    <h1 class="login-title">Accedi</h1>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-
-      <div class="input-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          formControlName="username"
-          class="form-control"
-          autocomplete="username"
-          [attr.aria-invalid]="loginSubmit && lf['username'].invalid"
-          [attr.aria-describedby]="loginSubmit && lf['username'].invalid ? 'username-error' : null"
-          [ngClass]="{
-            'is-invalid': loginSubmit && lf['username'].invalid,
-            'is-valid': loginSubmit && lf['username'].valid
-          }"
-        />
-        <div id="username-error" class="error-message" *ngIf="loginSubmit && lf['username'].invalid">
-          Questo campo è obbligatorio.
-        </div>
+<div class="auth-backdrop" (click)="onBackdropClick($event)">
+  <section #dialog class="auth-dialog" [class.registering]="registering" [class.switching]="switching" role="dialog" aria-modal="true" aria-labelledby="auth-title" aria-describedby="auth-description" [attr.aria-busy]="submitting || (auth.isLoading$ | async)">
+    <button class="close-button" type="button" aria-label="Chiudi login" (click)="auth.closeLogin()">×</button>
+    <aside class="decoration" aria-hidden="true">
+      <span class="eyebrow">THE COCKTAIL COLLECTION</span>
+      <div class="cocktail-frame">
+        <img src="https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg" alt="" (error)="$any($event.target).style.visibility = 'hidden'">
       </div>
-
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          class="form-control"
-          autocomplete="current-password"
-          [attr.aria-invalid]="loginSubmit && lf['password'].invalid"
-          [attr.aria-describedby]="loginSubmit && lf['password'].invalid ? 'password-error' : null"
-          [ngClass]="{
-            'is-invalid': loginSubmit && lf['password'].invalid,
-            'is-valid': loginSubmit && lf['password'].valid
-          }"
-        />
-        <div id="password-error" class="error-message" *ngIf="loginSubmit && lf['password'].invalid">
-          Questo campo è obbligatorio.
-        </div>
+      <div class="decoration-copy">
+        <span class="small-rule"></span>
+        <h2>Un mondo di cocktail.<br>Il tuo prossimo preferito.</h2>
+        <p>Lasciati ispirare, un sorso alla volta.</p>
       </div>
-
-      <div class="error-message form-error" role="alert" *ngIf="loginFailed">
-        Credenziali non valide: controlla username e password.
+      <span class="edition">MIX. DISCOVER. ENJOY.</span>
+    </aside>
+    <div class="form-panel">
+      <div class="form-content">
+      <span class="eyebrow">BENVENUTO NELLA COLLEZIONE</span>
+      <h1 id="auth-title">{{ registering ? 'Crea il tuo account.' : 'Bentornato.' }}</h1>
+      <p id="auth-description" class="intro">{{ registering ? 'La tua prossima scoperta inizia qui.' : 'Accedi e trova il cocktail che fa per te.' }}</p>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <fieldset [disabled]="switching || submitting || (auth.isLoading$ | async)">
+          <label for="auth-username">Username</label>
+          <input #usernameInput id="auth-username" formControlName="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Il tuo username" [attr.aria-invalid]="submitted && form.controls.username.invalid" aria-describedby="auth-feedback">
+          <label for="auth-password">Password</label>
+          <input id="auth-password" type="password" formControlName="password" [attr.autocomplete]="registering ? 'new-password' : 'current-password'" placeholder="La tua password" [attr.aria-invalid]="submitted && form.controls.password.invalid" aria-describedby="auth-feedback">
+          <div class="confirmation" *ngIf="registering">
+            <label for="auth-confirmation">Conferma password</label>
+            <input id="auth-confirmation" type="password" formControlName="confirmation" autocomplete="new-password" placeholder="Ripeti la password" [attr.aria-invalid]="submitted && form.controls.password.value !== form.controls.confirmation.value" aria-describedby="auth-feedback">
+          </div>
+          <button class="submit-button" type="submit">{{ submitting ? 'Attendi…' : registering ? 'Crea account' : 'Accedi' }} <span aria-hidden="true">↗</span></button>
+        </fieldset>
+      </form>
+      <div id="auth-feedback" class="feedback" aria-live="polite">
+        <p class="error" *ngIf="error" role="alert">{{ error }}</p>
+        <p class="success" *ngIf="message">{{ message }}</p>
+        <p *ngIf="!submitting && (auth.isLoading$ | async)">Verifica della sessione…</p>
+        <ng-container *ngIf="auth.sessionError$ | async as sessionError">
+          <p class="error">{{ sessionError }}</p>
+          <button class="text-button" type="button" *ngIf="auth.hasSavedSession" [disabled]="switching || submitting || (auth.isLoading$ | async)" (click)="retrySession()">Riprova verifica sessione</button>
+        </ng-container>
       </div>
-
-      <button type="submit" class="login-button">Accedi</button>
-    </form>
-  </div>
+      <p class="switch-copy">{{ registering ? 'Hai già un account?' : 'Non hai ancora un account?' }} <button class="text-button" type="button" (click)="switchMode()" [disabled]="switching || submitting || (auth.isLoading$ | async)">{{ registering ? 'Sign in' : 'Sign up' }} <span aria-hidden="true">↗</span></button></p>
+      </div>
+    </div>
+  </section>
 </div>

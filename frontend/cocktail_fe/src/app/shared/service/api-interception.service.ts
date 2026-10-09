@@ -1,52 +1,30 @@
-// src/app/interceptors/api-interception.service.ts
-
-import { Injectable, OnDestroy } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../app.module'; // Percorso corretto all'interfaccia AppState
-import { getToken } from '../../store/selectors/login.selector';
-import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthSessionService } from '../auth/auth-session.service';
 
 @Injectable()
-export class ApiInterceptionService implements HttpInterceptor, OnDestroy {
+export class ApiInterceptionService implements HttpInterceptor {
+  constructor(private session: AuthSessionService) { }
 
-  private ngDestroy$ = new Subject<void>();
-  private token: string | null = null;
-
-  constructor(private router: Router, private store: Store<AppState>) {
-    // Ascolta il token nello store
-    this.store.select(getToken)
-      .pipe(takeUntil(this.ngDestroy$))
-      .subscribe(token => {
-        this.token = token;
-        if (token) {
-          localStorage.setItem('token', token); // Salva anche in localStorage
-        }
-      });
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const route = this.router.url.split('?')[0];
-
-    // Usa il token da store, oppure da localStorage
-    const authToken = this.token || localStorage.getItem('token');
-
-    if (authToken && route !== '/ticketconfirm') {
-      const cleanedToken = authToken.replace(/"/g, '');
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Token ${cleanedToken}`
-        }
-      });
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    const backend = new URL(environment.apiUrl, window.location.origin);
+    const target = new URL(req.url, window.location.origin);
+    const apiPath = backend.pathname.replace(/\/$/, '') + '/api/';
+    const localApi = target.origin === backend.origin && target.pathname.startsWith(apiPath);
+    const publicAuth = target.pathname === apiPath + 'auth/login' || target.pathname === apiPath + 'auth/register';
+    const token = localApi && !publicAuth ? this.session.token : undefined;
+    if (token) {
+      req = req.clone({ setHeaders: { Authorization: 'Bearer ' + token } });
     }
-
-    return next.handle(req);
-  }
-
-  ngOnDestroy(): void {
-    this.ngDestroy$.next();
-    this.ngDestroy$.complete();
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (token && error.status === 401 && token === this.session.token) {
+          this.session.clear();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }
